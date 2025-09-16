@@ -4,23 +4,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>Food Construct</title>
 </head>
 
 <body>
     <div class="wrapper">
+
+        <div class="menu__overlay" id="menu_overlay"></div>
+
         <header class="header">
             <div class="header__container _container">
-                <div class="header__logo">
-                    <h1>Food Construct</h1>
+                <div class="header__top">
+                    <div class="header__logo">
+                        <h1><a href="index.html">Food Construct</a></h1>
+                    </div>
+
+                    <button class="theme-toggle" id="themeToggle">🌙</button>
+                </div>
+
+                <div class="menu__icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
                 <nav class="header__menu menu">
                     <ul class="menu__list">
-                        <li class="menu__item"><a href="">О нас</a></li>
-                        <li class="menu__item"><a href="">Собрать ланч</a></li>
-                        <li class="menu__item"><a href="">Заказы</a></li>
-                        <li class="menu__item"><a href="">Контакты</a></li>
+                        <li class="menu__item"><a href="#about">О нас</a></li>
+                        <li class="menu__item"><a href="#make_lunch">Собрать ланч</a></li>
+                        <li class="menu__item"><a href="#orders">Заказы</a></li>
+                        <li class="menu__item"><a href="#contacts">Контакты</a></li>
                     </ul>
                 </nav>
             </div>
@@ -28,15 +44,12 @@
 
         <main class="main">
             <div class="main__container _container">
-                <div class="block">
+                <div class="block" id="about">
                     <div class="image">
                         <img src="food.png" alt="">
                     </div>
-                </div>
-
-                <div class="block">
                     <div class="block__header">
-                        <h1>О нас</h1>
+                        О нас
                     </div>
                     <div class="block__body">
                         <div class="block__text">
@@ -48,7 +61,7 @@
                     </div>
                 </div>
 
-                <div class="block">
+                <div class="block" id="orders">
                     <div class="block__header">
                         Преимущества Food Construct
                     </div>
@@ -64,48 +77,50 @@
                     </div>
                 </div>
 
-                <div class="block">
+                <div class="block" id="make_lunch">
                     <div class="block__header">
                         Топ-5 популрярных блюд
                     </div>
                     <div class="block__body">
                         <table class="block__table">
-                            <tbody>
+                            <thead>
                                 <tr class="table__row">
                                     <th class="table__cell"></th>
                                     <th class="table__cell">Название</th>
                                     <th class="table__cell">Кол-во заказов в неделю</th>
                                     <th class="table__cell">Цена</th>
                                 </tr>
+                            </thead>
+                            <tbody>
                                 <tr class="table__row">
                                     <td class="table__cell">1</td>
                                     <td class="table__cell">Лазанья</td>
                                     <td class="table__cell">185</td>
-                                    <td class="table__cell">385</td>
+                                    <td class="table__cell">385&#8381;</td>
                                 </tr>
                                 <tr class="table__row">
                                     <td class="table__cell">2</td>
                                     <td class="table__cell">Том Ям с креветками</td>
                                     <td class="table__cell">161</td>
-                                    <td class="table__cell">365</td>
+                                    <td class="table__cell">365&#8381;</td>
                                 </tr>
                                 <tr class="table__row">
                                     <td class="table__cell">3</td>
                                     <td class="table__cell">Норвежский суп</td>
                                     <td class="table__cell">144</td>
-                                    <td class="table__cell">270</td>
+                                    <td class="table__cell">270&#8381;</td>
                                 </tr>
                                 <tr class="table__row">
                                     <td class="table__cell">4</td>
                                     <td class="table__cell">Жареная картошка с грибами</td>
                                     <td class="table__cell">132</td>
-                                    <td class="table__cell">150</td>
+                                    <td class="table__cell">150&#8381;</td>
                                 </tr>
                                 <tr class="table__row">
                                     <td class="table__cell">5</td>
                                     <td class="table__cell">Котлеты из курицы с картофельным пюре</td>
                                     <td class="table__cell">128</td>
-                                    <td class="table__cell">225</td>
+                                    <td class="table__cell">225&#8381;</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -114,13 +129,17 @@
             </div>
         </main>
 
-        <footer class="footer">
-            <label>
-                <span>Позвонить нам</span>
-                <input type="text" name="" value="+700000000000">
-            </label>
+        <footer class="footer" id="contacts">
+            <div class="footer__info">
+                <label for="phone_number">
+                    <span>Позвонить нам:</span>
+                    <a class="phone_number" href="tel:+700000000000">+7-000-000-00-00</a>
+                </label>
+            </div>
         </footer>
     </div>
+
+    <script src="script.js"></script>
 </body>
 
 </html>
