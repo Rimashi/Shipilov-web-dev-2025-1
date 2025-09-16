@@ -44,13 +44,9 @@ document.addEventListener('DOMContentLoaded', function () {
     if (currentTheme === 'dark') {
         document.body.classList.add('dark-theme');
         themeToggle.textContent = '☀️';
-    } else if (currentTheme === 'light') {
-        document.body.classList.remove('dark-theme');
+    } else {
+        document.body.classList.remove('dark-theme'); // гарантированно светлая
         themeToggle.textContent = '🌙';
-    } else if (prefersDarkScheme.matches) {
-        document.body.classList.add('dark-theme');
-        themeToggle.textContent = '☀️';
-        localStorage.setItem('theme', 'dark');
     }
 
     // Обработчик переключения темы
