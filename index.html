@@ -22,7 +22,51 @@
         <li><a href="">Лабораторная работа №9</a></li>
         <li><a href="">Лабораторная работа №10</a></li>
     </ul>
-    <marquee scrollamount="10">🔥 Верните мне мой 2007 год! 🔥</marquee>
+
+    <button id="musicBtn">🎵</button>
+    <audio id="player" autoplay loop hidden></audio>
+
+    <marquee id="marquee" scrollamount="12">🔥 Верните мне мой 2007 год! 🔥</marquee>
+
+    <script>
+        const words = [
+            "🔥 Верните мне мой 2007 год! 🔥",
+            "💾 Internet Explorer? 💾",
+            "✨ ICQ UIN: 123456 ✨",
+            "🎶 Скачай Winamp, реально тема! 🎶",
+            "📟 Nokia 3310 top 📟"
+        ];
+
+        let i = 0;
+        const marquee = document.getElementById("marquee");
+        const randomText = words[Math.floor(Math.random() * words.length)];
+        marquee.textContent = randomText;
+
+        let randomMusic = Math.floor(Math.random() * 8) + 1;
+        const player = document.getElementById("player");
+        const btn = document.getElementById("musicBtn");
+        let isPlaying = true;
+
+        player.src = `music/${randomMusic}.mp3`;
+        player.load();
+        player.play().catch(() => {
+            isPlaying = false;
+        })
+
+        btn.addEventListener("click", () => {
+            if (isPlaying) {
+                player.pause();
+                btn.textContent = "🎵";
+            } else {
+                randomMusic = Math.floor(Math.random() * 8) + 1;
+                player.src = `music/${randomMusic}.mp3`;
+                player.load();
+                player.play();
+                btn.textContent = "🎶";
+            }
+            isPlaying = !isPlaying;
+        });
+    </script>
 </body>
 
 </html>

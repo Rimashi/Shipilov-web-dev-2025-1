@@ -41,6 +41,30 @@ marquee {
     margin-top: 20px;
 }
 
+#musicBtn {
+    margin-top: 20px;
+    font-size: 1.5em;
+    padding: 10px 20px;
+    background: yellow;
+    border: 3px solid red;
+    cursor: pointer;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0% {
+        background: yellow;
+    }
+
+    50% {
+        background: orange;
+    }
+
+    100% {
+        background: yellow;
+    }
+}
+
 @keyframes gradientMove {
     0% {
         background-position: 0% 50%;
