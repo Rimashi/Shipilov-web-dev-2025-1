@@ -34,12 +34,12 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-    
+
     // Функционал смены темы
     const themeToggle = document.getElementById('themeToggle');
     const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
 
-    // Проверяем сохраненную тему или системные настройки
+    // Проверяем сохраненную тему
     const currentTheme = localStorage.getItem('theme');
     if (currentTheme === 'dark') {
         document.body.classList.add('dark-theme');
@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.body.classList.remove('dark-theme'); // гарантированно светлая
         themeToggle.textContent = '🌙';
     }
+
 
     // Обработчик переключения темы
     themeToggle.addEventListener('click', function () {
