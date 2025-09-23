@@ -1,3 +1,46 @@
+// Модальное окно
+const modalBackground = document.getElementById('modalBackground');
+const modalClose = document.getElementById('modalClose');
+const configuratorButton = document.querySelector('.side__menu-configure input');
+
+// Функция открытия модального окна
+function openModal() {
+    modalBackground.classList.add('active');
+    document.body.classList.add('modal-open');
+}
+
+// Функция закрытия модального окна
+function closeModal() {
+    modalBackground.classList.remove('active');
+    document.body.classList.remove('modal-open');
+}
+
+// Открытие по кнопке "Попробовать конфигуратор"
+if (configuratorButton) {
+    configuratorButton.addEventListener('click', openModal);
+}
+
+// Закрытие по крестику
+if (modalClose) {
+    modalClose.addEventListener('click', closeModal);
+}
+
+// Закрытие по клику вне области
+if (modalBackground) {
+    modalBackground.addEventListener('click', function (event) {
+        if (event.target === modalBackground) {
+            closeModal();
+        }
+    });
+}
+
+// Закрытие по клавише Esc
+document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && modalBackground.classList.contains('active')) {
+        closeModal();
+    }
+});
+
 // Бургер меню
 const menuIcon = document.getElementById('menuIcon');
 const headerMenu = document.getElementById('headerMenu');
