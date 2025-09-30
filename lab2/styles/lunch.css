@@ -365,7 +365,7 @@
 /* Modal cart styles */
 .cart-modal__body {
     max-height: 60vh;
-    overflow-y: auto;
+    overflow: hidden;
 }
 
 .cart-modal__footer {
