@@ -364,7 +364,6 @@ body {
     max-width: 1200px;
     font-size: 18px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     gap: 12px;
     text-align: center;
