@@ -1,3 +1,65 @@
+// ===== BURGER MENU =====
+document.addEventListener('DOMContentLoaded', function () {
+    const menuIcon = document.querySelector('.menu__icon');
+    const menu = document.querySelector('.header__menu');
+    const menuOverlay = document.getElementById('menu_overlay');
+    const body = document.body;
+
+    // Проверяем, что все элементы существуют :cite[2]:cite[3]
+    if (!menuIcon || !menu || !menuOverlay) {
+        console.error('One or more menu elements not found:', {
+            menuIcon: !!menuIcon,
+            menu: !!menu,
+            menuOverlay: !!menuOverlay
+        });
+        return;
+    }
+
+    // Функция открытия/закрытия меню
+    function toggleMenu() {
+        menuIcon.classList.toggle('active');
+        menu.classList.toggle('active');
+        menuOverlay.classList.toggle('active');
+        body.classList.toggle('menu-open');
+
+        console.log('Menu toggled. Active:', menu.classList.contains('active'));
+    }
+
+    // Обработчик клика по иконке меню
+    menuIcon.addEventListener('click', function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        console.log('Menu icon clicked');
+        toggleMenu();
+    });
+
+    // Обработчик клика по оверлею (закрытие меню)
+    menuOverlay.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (menu.classList.contains('active')) {
+            console.log('Overlay clicked, closing menu');
+            toggleMenu();
+        }
+    });
+
+    // Закрытие меню при клике на ссылку
+    const menuLinks = document.querySelectorAll('.menu__list a');
+    menuLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            if (menu.classList.contains('active')) {
+                console.log('Menu link clicked, closing menu');
+                toggleMenu();
+            }
+        });
+    });
+
+    // Закрытие меню при изменении размера окна (на случай перехода с мобильной на десктопную версию)
+    window.addEventListener('resize', function () {
+        if (window.innerWidth > 767 && menu.classList.contains('active')) {
+            toggleMenu();
+        }
+    });
+});
 
 // ===== ModalManager =====
 (function (global) {
@@ -96,7 +158,7 @@ class ThemeSwitcher {
         this._applySaved();
         this._bind();
     }
-    
+
     _applySaved() {
         const current = localStorage.getItem(this.themeKey) || 'light';
         if (current === 'dark') document.body.classList.add('dark-theme');
