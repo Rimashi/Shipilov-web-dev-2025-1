@@ -170,7 +170,7 @@ ModalCore.register('constructor', modals.constructor);
 ModalCore.register('basket', modals.basket);
 
 // ==== Upload Menu =====
-fetch('./lab2/scripts/menu.json')
+fetch('https://rimashi.github.io/Shipilov-web-dev-2025-1/lab2/scripts/menu.json')
     .then((res) => {
         if (!res.ok) {
             console.log("error");
