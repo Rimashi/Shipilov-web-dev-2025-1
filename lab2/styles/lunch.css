@@ -911,7 +911,7 @@
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 680px) {
     .main__content {
         display: flex;
         flex-direction: column;

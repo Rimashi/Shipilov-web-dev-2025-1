@@ -235,6 +235,10 @@ body {
     position: relative;
 }
 
+.menu__item--active a {
+    color: var(--accent-color);
+}
+
 .menu__item a:hover {
     color: var(--accent-color);
 }
