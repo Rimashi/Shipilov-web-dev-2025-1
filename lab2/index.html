@@ -8,25 +8,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/lunch.css">
     <title>Food Construct</title>
 </head>
 
 <body>
     <div class="wrapper">
         <div class="menu__overlay" id="menu_overlay"></div>
-        <!-- Модальное окно -->
-        <div class="modal__background" id="modalBackground">
-            <div class="modal__active">
-                <div class="modal__close" id="modalClose">
-                    <span>×</span>
-                </div>
-                <div class="modal__window">
-                    <h2>Конфигуратор</h2>
-                    <p>Содержимое модального окна здесь...</p>
-                </div>
-            </div>
-        </div>
 
         <header class="header">
             <div class="header__container _container">
@@ -56,174 +45,23 @@
 
         <main class="main">
             <div class="main__container _container">
-                <div class="plank__menu">
-                    <h2 class="plank__name">МЕНЮ</h2>
-                </div>
 
                 <div class="main__content">
-                    <div class="blocks">
-                        <section class="dish__block" id="soups">
-                            <h2 class="dish__block-name">Супы</h2>
-                            <div class="dish__block-dishes">
-                                <div class="dish__block-dish" data-id="gazpacho" data-price="195">
-                                    <div class="dish__image">
-                                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop"
-                                            alt="Гаспачо">
-                                    </div>
-                                    <div class="dish__price">
-                                        <p>195₽</p>
-                                    </div>
-                                    <div class="dish__name">
-                                        <p>Гаспачо</p>
-                                    </div>
-                                    <div class="dish__weight">350 г</div>
-                                    <div class="dish__add-button"><input type="button" value="Добавить"></div>
-                                </div>
+                    <div class="blocks" id="dish_menu">
 
-                                <div class="dish__block-dish" data-id="tom-yam" data-price="365">
-                                    <div class="dish__image">
-                                        <img src="https://images.unsplash.com/photo-1604908177111-3b89a5b2d8f1?w=400&h=300&fit=crop"
-                                            alt="Том Ям">
-                                    </div>
-                                    <div class="dish__price">
-                                        <p>365₽</p>
-                                    </div>
-                                    <div class="dish__name">
-                                        <p>Том-Ям с креветками</p>
-                                    </div>
-                                    <div class="dish__weight">350 г</div>
-                                    <div class="dish__add-button"><input type="button" value="Добавить"></div>
-                                </div>
-
-                                <div class="dish__block-dish" data-id="borscht" data-price="220">
-                                    <div class="dish__image">
-                                        <img src="https://images.unsplash.com/photo-1564758866814-6a7c39b29b52?w=400&h=300&fit=crop"
-                                            alt="Борщ">
-                                    </div>
-                                    <div class="dish__price">
-                                        <p>220₽</p>
-                                    </div>
-                                    <div class="dish__name">
-                                        <p>Борщ с говядиной</p>
-                                    </div>
-                                    <div class="dish__weight">400 г</div>
-                                    <div class="dish__add-button"><input type="button" value="Добавить"></div>
-                                </div>
-                            </div>
-                        </section>
-
-                        <section class="dish__block" id="hots">
-                            <h2 class="dish__block-name">Горячее</h2>
-                            <div class="dish__block-dishes">
-                                <div class="dish__block-dish" data-id="fried-potatoes" data-price="150">
-                                    <div class="dish__image">
-                                        <img src="https://images.unsplash.com/photo-1604908177089-9b8fb3d1d8f0?w=400&h=300&fit=crop"
-                                            alt="Картошка">
-                                    </div>
-                                    <div class="dish__price">
-                                        <p>150₽</p>
-                                    </div>
-                                    <div class="dish__name">
-                                        <p>Жареная картошка с грибами</p>
-                                    </div>
-                                    <div class="dish__weight">300 г</div>
-                                    <div class="dish__add-button"><input type="button" value="Добавить"></div>
-                                </div>
-
-                                <div class="dish__block-dish" data-id="chicken-cutlets" data-price="225">
-                                    <div class="dish__image">
-                                        <img src="https://images.unsplash.com/photo-1605475128701-3d6a6d2f4f2b?w=400&h=300&fit=crop"
-                                            alt="Котлеты">
-                                    </div>
-                                    <div class="dish__price">
-                                        <p>225₽</p>
-                                    </div>
-                                    <div class="dish__name">
-                                        <p>Котлеты из курицы с пюре</p>
-                                    </div>
-                                    <div class="dish__weight">350 г</div>
-                                    <div class="dish__add-button"><input type="button" value="Добавить"></div>
-                                </div>
-
-                                <div class="dish__block-dish" data-id="lasagna" data-price="385">
-                                    <div class="dish__image">
-                                        <img src="https://images.unsplash.com/photo-1604908177099-3b6a5b9d1cc9?w=400&h=300&fit=crop"
-                                            alt="Лазанья">
-                                    </div>
-                                    <div class="dish__price">
-                                        <p>385₽</p>
-                                    </div>
-                                    <div class="dish__name">
-                                        <p>Лазанья</p>
-                                    </div>
-                                    <div class="dish__weight">400 г</div>
-                                    <div class="dish__add-button"><input type="button" value="Добавить"></div>
-                                </div>
-                            </div>
-                        </section>
-
-                        <section class="dish__block" id="drinks">
-                            <h2 class="dish__block-name">Напитки</h2>
-                            <div class="dish__block-dishes">
-                                <div class="dish__block-dish" data-id="cola" data-price="120">
-                                    <div class="dish__image">
-                                        <img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&h=300&fit=crop"
-                                            alt="Кола">
-                                    </div>
-                                    <div class="dish__price">
-                                        <p>120₽</p>
-                                    </div>
-                                    <div class="dish__name">
-                                        <p>Coca-Cola</p>
-                                    </div>
-                                    <div class="dish__weight">500 мл</div>
-                                    <div class="dish__add-button"><input type="button" value="Добавить"></div>
-                                </div>
-
-                                <div class="dish__block-dish" data-id="juice" data-price="90">
-                                    <div class="dish__image">
-                                        <img src="https://images.unsplash.com/photo-1613478223719-2ab802602423?w=400&h=300&fit=crop"
-                                            alt="Сок">
-                                    </div>
-                                    <div class="dish__price">
-                                        <p>90₽</p>
-                                    </div>
-                                    <div class="dish__name">
-                                        <p>Апельсиновый сок</p>
-                                    </div>
-                                    <div class="dish__weight">330 мл</div>
-                                    <div class="dish__add-button"><input type="button" value="Добавить"></div>
-                                </div>
-
-                                <div class="dish__block-dish" data-id="tea" data-price="80">
-                                    <div class="dish__image">
-                                        <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&h=300&fit=crop"
-                                            alt="Чай">
-                                    </div>
-                                    <div class="dish__price">
-                                        <p>80₽</p>
-                                    </div>
-                                    <div class="dish__name">
-                                        <p>Чай зеленый</p>
-                                    </div>
-                                    <div class="dish__weight">300 мл</div>
-                                    <div class="dish__add-button"><input type="button" value="Добавить"></div>
-                                </div>
-                            </div>
-                        </section>
                     </div>
 
                     <!-- Боковое меню -->
-                    <aside class="side__menu">
+                    <div class="side__menu">
                         <div class="side__menu-configure">
-                            <input type="button" value="Попробовать конфигуратор" class="fullwidth">
+                            <button type="button" class="" data-modal-open="constructor">
+                                Попробовать конфигуратор
+                            </button>
                         </div>
 
                         <nav class="side__nav">
                             <ul>
-                                <li><a href="#soups">Супы</a></li>
-                                <li><a href="#hots">Горячее</a></li>
-                                <li><a href="#drinks">Напитки</a></li>
+
                             </ul>
                         </nav>
 
@@ -241,10 +79,19 @@
                                 <button id="checkoutBtn" class="fullwidth" type="button">Перейти к оплате</button>
                             </div>
 
-                            <button id="cartToggle" aria-expanded="false" type="button">Развернуть</button>
+                            <button id="cartToggle" type="button" data-modal-open="basket">Развернуть</button>
                         </section>
-                    </aside>
+                    </div>
                 </div>
+            </div>
+
+            <!-- Плавающая панель корзины -->
+            <div class="floating-cart" id="floatingCart">
+                <div class="floating-cart__info">
+                    <span class="floating-cart__count" id="floatingCartCount">0 товаров</span>
+                    <span class="floating-cart__total" id="floatingCartTotal">0₽</span>
+                </div>
+                <button class="floating-cart__btn btn btn--primary" id="floatingCartBtn" type="button">Корзина</button>
             </div>
         </main>
 
@@ -258,7 +105,8 @@
         </footer>
     </div>
 
-    <script src="script.js"></script>
+    <script src="./scripts/main.js"></script>
+    <script src="./scripts/lunch.js"></script>
 </body>
 
 </html>

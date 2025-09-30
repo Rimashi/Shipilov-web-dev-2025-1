@@ -1,0 +1,83 @@
+[
+    {
+        "id": "gazpacho",
+        "name": "гаспачо",
+        "category": "soups",
+        "category_ru": "супы",
+        "price": 195,
+        "weight": "350 г",
+        "img": "../lab2/images/menu/soups/gazpacho.jpg"
+    },
+    {
+        "id": "norwegian_soup",
+        "name": "норвежский суп",
+        "category": "soups",
+        "category_ru": "супы",
+        "price": 270,
+        "weight": "330 г",
+        "img": "../lab2/images/menu/soups/norwegian_soup.jpg"
+    },
+    {
+        "id": "mushroom_soup",
+        "name": "грибной суп-пюре",
+        "category": "soups",
+        "category_ru": "супы",
+        "price": 185,
+        "weight": "330 г",
+        "img": "../lab2/images/menu/soups/mushroom_soup.jpg"
+    },
+    {
+        "id": "fried_potatoes",
+        "name": "жареная картошка с грибами",
+        "category": "hots",
+        "category_ru": "горячее",
+        "price": 150,
+        "weight": "250 г",
+        "img": "../lab2/images/menu/main_course/friedpotatoeswithmushrooms.jpg"
+    },
+    {
+        "id": "chicken_cutlets",
+        "name": "котлеты из курицы с картофельным пюре",
+        "category": "hots",
+        "category_ru": "горячее",
+        "price": 225,
+        "weight": "280 г",
+        "img": "../lab2/images/menu/main_course/chickencutletsandmashedpotatoes.jpg"
+    },
+    {
+        "id": "lasagna",
+        "name": "лазанья",
+        "category": "hots",
+        "category_ru": "горячее",
+        "price": 385,
+        "weight": "310 г",
+        "img": "../lab2/images/menu/main_course/lasagna.jpg"
+    },
+    {
+        "id": "apple_juice",
+        "name": "яблочный сок",
+        "category": "drinks",
+        "category_ru": "напитки",
+        "price": 90,
+        "weight": "300 мл",
+        "img": "../lab2/images/menu/beverages/applejuice.jpg"
+    },
+    {
+        "id": "orange_juice",
+        "name": "апельсиновый сок",
+        "category": "drinks",
+        "category_ru": "напитки",
+        "price": 120,
+        "weight": "330 мл",
+        "img": "../lab2/images/menu/beverages/orangejuice.jpg"
+    },
+    {
+        "id": "carrot_juice",
+        "name": "морковный сок",
+        "category": "drinks",
+        "category_ru": "напитки",
+        "price": 110,
+        "weight": "300 мл",
+        "img": "../lab2/images/menu/beverages/carrotjuice.jpg"
+    }
+]
