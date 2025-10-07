@@ -1,5 +1,65 @@
 // ===== MODALS =====
 const modals = {
+    "payment": `
+        <div class="modal__background" role="presentation" data-modal="payment">
+            <div class="modal__active" role="dialog" aria-modal="true">
+                <div class="modal__close" data-modal-close>
+                    <span>×</span>
+                </div>
+                <div class="modal__window">
+                    <h2>Данные для доставки</h2>
+                    <div class="form-scroll-container">
+                        <form id="deliveryForm">
+                            <div class="form-group">
+                                <label for="userName">Имя:</label>
+                                <input type="text" id="userName" name="userName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="userAddress">Адрес доставки:</label>
+                                <textarea id="userAddress" name="userAddress" placeholder="Введите адрес доставки..." required></textarea>
+                                <div class="input-caption">Доставка только по Москве</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="userPhone">Телефон:</label>
+                                <input type="tel" id="userPhone" name="userPhone" placeholder="+7 (___) ___-__-__" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="userComment">Комментарий к заказу:</label>
+                                <textarea id="userComment" name="userComment" placeholder="Ваши пожелания к заказу..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Время доставки:</label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="deliveryType" value="standard" checked>
+                                        <span>Как можно скорее</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="deliveryType" value="timed">
+                                        <span>К указанному времени</span>
+                                    </label>
+                                </div>
+                                <div id="timeInputContainer" class="hidden">
+                                    <label for="deliveryTime">Время доставки:</label>
+                                    <input type="time" id="deliveryTime" name="deliveryTime">
+                                    <div class="input-caption">Время доставки с 7:00 до 23:00</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" id="resetBtn" class="btn btn-secondary">Сбросить форму</button>
+                        <button type="submit" form="deliveryForm" class="btn btn-primary">Оформить заказ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `,
     "basket": `
         <div class="modal__background" role="presentation" data-modal="basket">
             <div class="modal__active" role="dialog" aria-modal="true">
@@ -22,6 +82,7 @@ const modals = {
 };
 
 // Регистрируем модальные окна
+ModalCore.register('payment', modals.payment);
 ModalCore.register('basket', modals.basket);
 
 // ==== Upload Menu =====
@@ -428,7 +489,275 @@ class SimpleCart {
     }
 }
 
+// ===== PAYMENT MODAL FUNCTIONALITY =====
+class PaymentModal {
+    constructor() {
+        this.isInitialized = false;
+        this.init();
+    }
+
+    init() {
+        // Вешаем обработчики один раз при создании класса
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('[data-modal-open="payment"]') ||
+                e.target.id === 'checkoutBtn' ||
+                e.target.id === 'cartModalCheckout') {
+
+                // Инициализируем модалку при первом открытии
+                if (!this.isInitialized) {
+                    this.initializeModal();
+                    this.isInitialized = true;
+                }
+            }
+        });
+    }
+
+    initializeModal() {
+        const form = document.getElementById('deliveryForm');
+        if (!form) return;
+
+        // Маска для номера телефона
+        const phoneInput = document.getElementById('userPhone');
+        if (phoneInput) this.createPhoneMask(phoneInput);
+
+        // Динамическое расширение textarea
+        const addressTextarea = document.getElementById('userAddress');
+        const commentTextarea = document.getElementById('userComment');
+        if (addressTextarea) this.setupAutoResize(addressTextarea);
+        if (commentTextarea) this.setupAutoResize(commentTextarea);
+
+        // Показ/скрытие поля времени
+        this.setupConditionalTimeField();
+
+        // Кнопка сброса формы
+        this.setupResetButton();
+
+        // Обработчик отправки формы
+        this.setupFormSubmit();
+    }
+
+    createPhoneMask(input) {
+        const handler = (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            let formattedValue = '+7 (';
+
+            if (value.length > 1) {
+                value = value.substring(1);
+            }
+
+            if (value.length > 0) {
+                formattedValue += value.substring(0, 3);
+            }
+            if (value.length > 3) {
+                formattedValue += ') ' + value.substring(3, 6);
+            }
+            if (value.length > 6) {
+                formattedValue += '-' + value.substring(6, 8);
+            }
+            if (value.length > 8) {
+                formattedValue += '-' + value.substring(8, 10);
+            }
+
+            e.target.value = formattedValue;
+        };
+
+        input.addEventListener('input', handler);
+        input.addEventListener('paste', (e) => {
+            e.preventDefault();
+            const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+            const numbers = pastedText.replace(/\D/g, '');
+            input.value = '+7 (' + numbers.substring(1, 4) + ') ' + numbers.substring(4, 7) + '-' + numbers.substring(7, 9) + '-' + numbers.substring(9, 11);
+        });
+    }
+
+    setupAutoResize(textarea) {
+        const resize = () => {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 150) + 'px';
+        };
+
+        textarea.addEventListener('input', resize);
+        setTimeout(resize, 10);
+    }
+
+    setupConditionalTimeField() {
+        const deliveryRadios = document.querySelectorAll('input[name="deliveryType"]');
+        const timeInputContainer = document.getElementById('timeInputContainer');
+
+        const toggleTimeField = () => {
+            const timedDeliverySelected = document.querySelector('input[name="deliveryType"]:checked').value === 'timed';
+            if (timeInputContainer) {
+                timeInputContainer.classList.toggle('hidden', !timedDeliverySelected);
+            }
+        };
+
+        deliveryRadios.forEach(radio => {
+            radio.addEventListener('change', toggleTimeField);
+        });
+
+        // Инициализация при загрузке
+        toggleTimeField();
+    }
+
+    validateTime(timeValue) {
+        if (!timeValue) return true; // Пустое время - валидно (не обязательно)
+
+        const [hours, minutes] = timeValue.split(':').map(Number);
+        // Проверяем, находится ли время в допустимом диапазоне (7:00-23:00)
+        return hours >= 7 && hours <= 23;
+    }
+
+    setupResetButton() {
+        const resetBtn = document.getElementById('resetBtn');
+        const form = document.getElementById('deliveryForm');
+
+        if (resetBtn && form) {
+            resetBtn.addEventListener('click', () => {
+                if (confirm('Вы уверены, что хотите сбросить все данные формы?')) {
+                    form.reset();
+                    const timeInputContainer = document.getElementById('timeInputContainer');
+                    if (timeInputContainer) timeInputContainer.classList.add('hidden');
+
+                    const addressTextarea = document.getElementById('userAddress');
+                    const commentTextarea = document.getElementById('userComment');
+                    if (addressTextarea) addressTextarea.style.height = 'auto';
+                    if (commentTextarea) commentTextarea.style.height = 'auto';
+
+                    // Сбрасываем валидацию времени
+                    const deliveryTime = document.getElementById('deliveryTime');
+                    const timeValidationError = document.getElementById('timeValidationError');
+                    if (deliveryTime) deliveryTime.classList.remove('invalid');
+                    if (timeValidationError) timeValidationError.classList.add('hidden');
+
+                    const userName = document.getElementById('userName');
+                    if (userName) userName.focus();
+                }
+            });
+        }
+    }
+
+    setupFormSubmit() {
+        const form = document.getElementById('deliveryForm');
+        if (!form) return;
+
+        // находим кнопку отправки (вне формы она задана через form="deliveryForm")
+        const submitBtn = document.querySelector('button[form="deliveryForm"][type="submit"]');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Валидация телефона
+            const phoneInput = document.getElementById('userPhone');
+            const phoneValue = phoneInput ? phoneInput.value.replace(/\D/g, '') : '';
+            if (phoneValue.length !== 11) {
+                alert('Пожалуйста, введите корректный номер телефона');
+                if (phoneInput) phoneInput.focus();
+                return;
+            }
+
+            // Валидация времени доставки (только при отправке)
+            const deliveryTime = document.getElementById('deliveryTime');
+            const timeValue = deliveryTime ? deliveryTime.value : '';
+            if (timeValue && !this.validateTime(timeValue)) {
+                if (deliveryTime) deliveryTime.classList.add('invalid');
+                alert('Время доставки должно быть между 7:00 и 23:00');
+                if (deliveryTime) deliveryTime.focus();
+                return;
+            } else {
+                if (deliveryTime) deliveryTime.classList.remove('invalid');
+            }
+
+            // Сбор данных
+            const formData = new FormData(form);
+            const deliveryData = {
+                userName: formData.get('userName'),
+                email: formData.get('email'),
+                userAddress: formData.get('userAddress'),
+                userPhone: formData.get('userPhone'),
+                userComment: formData.get('userComment'),
+                deliveryType: formData.get('deliveryType'),
+                deliveryTime: formData.get('deliveryTime'),
+                cartItems: window.simpleCart?.items || [],
+                total: window.simpleCart?.getTotal() || 0
+            };
+
+            // Блокируем кнопку отправки
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.dataset.prevText = submitBtn.textContent;
+                submitBtn.textContent = 'Отправка...';
+            }
+
+            try {
+                const resp = await fetch('https://httpbin.org/post', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(deliveryData),
+                });
+
+                if (!resp.ok) throw new Error(`Сервер вернул ${resp.status}`);
+
+                const respJson = await resp.json();
+
+                // Покажем ответ сервера в модалке (pretty JSON)
+                const modalRoot = document.querySelector('[data-modal="payment"]');
+                if (modalRoot) {
+                    const modalWindow = modalRoot.querySelector('.modal__window');
+                    if (modalWindow) {
+                        // Очищаем окно и вставляем ответ
+                        modalWindow.innerHTML = '';
+
+                        const title = document.createElement('h2');
+                        title.textContent = 'Ответ сервера (httpbin.org)';
+                        modalWindow.appendChild(title);
+
+                        const info = document.createElement('p');
+                        info.textContent = 'Ниже показан полный ответ сервера — в поле "json".';
+                        modalWindow.appendChild(info);
+
+                        const pre = document.createElement('pre');
+                        pre.style.whiteSpace = 'pre-wrap';
+                        pre.style.maxHeight = '50vh';
+                        pre.style.overflow = 'auto';
+                        pre.textContent = JSON.stringify(respJson, null, 2); // безопасно через textContent
+                        modalWindow.appendChild(pre);
+
+                        // Кнопка закрыть
+                        const actions = document.createElement('div');
+                        actions.className = 'modal-actions';
+                        const closeBtn = document.createElement('button');
+                        closeBtn.className = 'btn';
+                        closeBtn.textContent = 'Закрыть';
+                        closeBtn.addEventListener('click', () => {
+                            ModalCore.close();
+                        });
+                        actions.appendChild(closeBtn);
+                        modalWindow.appendChild(actions);
+                    }
+                }
+
+                // Очистка корзины после успешной отправки
+                if (window.simpleCart) window.simpleCart.clearCart();
+
+            } catch (err) {
+                console.error(err);
+                alert('Ошибка при отправке заказа: ' + (err.message || err));
+            } finally {
+                // Восстанавливаем кнопку (если форма по-прежнему присутствует)
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = submitBtn.dataset.prevText || 'Оформить заказ';
+                }
+            }
+        });
+    }
+}
+
 // ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
     window.simpleCart = new SimpleCart();
+    window.paymentModal = new PaymentModal();
 });

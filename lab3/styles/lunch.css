@@ -587,6 +587,7 @@
     animation: slideDownToBottom 0.3s ease-in forwards;
 }
 
+
 .step {
     display: none;
 }
@@ -737,6 +738,167 @@
 .nav-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+/* === for form in modals ===*/
+.modal__active {
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal__window {
+    flex: 1;
+    overflow-y: auto;
+    max-height: calc(90vh - 60px);
+    padding-right: 5px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.input-caption {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 6px;
+    font-style: italic;
+    display: block;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color) 20%, transparent);
+}
+
+/* Динамический textarea */
+#userAddress,
+#userComment {
+    min-height: 80px;
+    max-height: 200px;
+    resize: none;
+    overflow-y: auto;
+}
+
+/* Запрещаем растягивание за пределы экрана */
+#userAddress:focus,
+#userComment:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-color) 30%, transparent);
+}
+
+/* Стили для радиокнопок */
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 12px 0;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.radio-label:hover {
+    background-color: color-mix(in srgb, var(--accent-color) 5%, transparent);
+    border-color: var(--accent-color);
+}
+
+.radio-label input[type="radio"] {
+    margin: 0;
+    width: 18px;
+    height: 18px;
+}
+
+/* Скрытое поле времени */
+.hidden {
+    display: none !important;
+}
+
+/* Кнопки */
+.modal-actions {
+    width: 100%;
+    position: sticky;
+    background: var(--bg-color);
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    flex: 1;
+}
+
+.btn-primary {
+    background: var(--accent-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--accent-2);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background: var(--muted);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: color-mix(in srgb, var(--muted) 80%, black);
+    transform: translateY(-1px);
+}
+
+/* Поле времени */
+input[type="time"] {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: inherit;
 }
 
 /* Адаптивность */
