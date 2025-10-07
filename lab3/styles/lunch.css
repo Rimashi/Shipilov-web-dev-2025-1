@@ -795,6 +795,30 @@
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color) 20%, transparent);
 }
 
+#shareAgree {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+#shareAgree input {
+    width: 10%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+#shareAgree label {
+    margin-bottom: 0;
+}
+
 /* Динамический textarea */
 #userAddress,
 #userComment {

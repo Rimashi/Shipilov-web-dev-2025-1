@@ -18,6 +18,10 @@ const modals = {
                                 <label for="email">Email:</label>
                                 <input type="email" id="email" name="email" required>
                             </div>
+                            <div class="form-group" id="shareAgree">
+                                <input type="checkbox" id="shareAgreeCheckbox" checked name="shareAgreeCheckbox" value="true">
+                                <label for="shareAgreeCheckbox">Получать рекламные уведомления</label>
+                            </div>
                             <div class="form-group">
                                 <label for="userAddress">Адрес доставки:</label>
                                 <textarea id="userAddress" name="userAddress" placeholder="Введите адрес доставки..." required></textarea>
@@ -678,6 +682,7 @@ class PaymentModal {
                 deliveryType: formData.get('deliveryType'),
                 deliveryTime: formData.get('deliveryTime'),
                 cartItems: window.simpleCart?.items || [],
+                advertismentAgree: formData.get('shareAgreeCheckbox') === "true",
                 total: window.simpleCart?.getTotal() || 0
             };
 
