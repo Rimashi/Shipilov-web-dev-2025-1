@@ -707,46 +707,11 @@ class PaymentModal {
 
                 const respJson = await resp.json();
 
-                // Покажем ответ сервера в модалке (pretty JSON)
-                const modalRoot = document.querySelector('[data-modal="payment"]');
-                if (modalRoot) {
-                    const modalWindow = modalRoot.querySelector('.modal__window');
-                    if (modalWindow) {
-                        // Очищаем окно и вставляем ответ
-                        modalWindow.innerHTML = '';
-
-                        const title = document.createElement('h2');
-                        title.textContent = 'Ответ сервера (httpbin.org)';
-                        modalWindow.appendChild(title);
-
-                        const info = document.createElement('p');
-                        info.textContent = 'Ниже показан полный ответ сервера — в поле "json".';
-                        modalWindow.appendChild(info);
-
-                        const pre = document.createElement('pre');
-                        pre.style.whiteSpace = 'pre-wrap';
-                        pre.style.maxHeight = '50vh';
-                        pre.style.overflow = 'auto';
-                        pre.textContent = JSON.stringify(respJson, null, 2); // безопасно через textContent
-                        modalWindow.appendChild(pre);
-
-                        // Кнопка закрыть
-                        const actions = document.createElement('div');
-                        actions.className = 'modal-actions';
-                        const closeBtn = document.createElement('button');
-                        closeBtn.className = 'btn';
-                        closeBtn.textContent = 'Закрыть';
-                        closeBtn.addEventListener('click', () => {
-                            ModalCore.close();
-                        });
-                        actions.appendChild(closeBtn);
-                        modalWindow.appendChild(actions);
-                    }
-                }
+                console.log(respJson);
 
                 // Очистка корзины после успешной отправки
                 if (window.simpleCart) window.simpleCart.clearCart();
-
+                ModalCore.close();
             } catch (err) {
                 console.error(err);
                 alert('Ошибка при отправке заказа: ' + (err.message || err));
