@@ -537,7 +537,7 @@
 }
 
 .floating-cart__btn {
-    background: var(--accent-color);
+    background: var(--accent);
     color: white;
     border: none;
     border-radius: 8px;
@@ -896,7 +896,7 @@
 }
 
 .btn-primary {
-    background: var(--accent-color);
+    background: var(--accent);
     color: white;
 }
 
@@ -906,7 +906,7 @@
 }
 
 .btn-secondary {
-    background: var(--muted);
+    background: var(--surface);
     color: white;
 }
 
