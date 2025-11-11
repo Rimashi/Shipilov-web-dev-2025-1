@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="About page">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/index__page.css">
+    <title>Food Construct</title>
+</head>
+
+<body>
+    <div class="wrapper">
+
+        <div class="menu__overlay" id="menu_overlay"></div>
+
+        <header class="header">
+            <div class="header__container _container">
+                <div class="header__top">
+                    <div class="header__logo">
+                        <h1><a href="index.html">Food Construct</a></h1>
+                    </div>
+
+                    <button class="theme-toggle" id="themeToggle" type="button">🌙</button>
+                </div>
+
+                <div class="menu__icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <nav class="header__menu menu">
+                    <ul class="menu__list">
+                        <li class="menu__item menu__item--active"><a href="./index.html">О нас</a></li>
+                        <li class="menu__item"><a href="./lunch.html">Собрать ланч</a></li>
+                        <li class="menu__item"><a href="#orders">Заказы</a></li>
+                        <li class="menu__item"><a href="#contacts">Контакты</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="main__container _container">
+                <section class="block" id="about">
+                    <div class="image">
+                        <img src="./images/food.jpg" alt="">
+                    </div>
+                    <h2 class="block__header">
+                        О нас
+                    </h2>
+                    <div class="block__body">
+                        <div class="block__text">
+                            <p>
+                                Food Construct - доставка бизнес-ланчей в Москве. Мы привезем вам горячую вкусную еду в
+                                любую точку города к назначенному времени.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="block" id="orders">
+                    <h2 class="block__header">
+                        Преимущества Food Construct
+                    </h2>
+                    <div class="block__body">
+                        <div class="block__text">
+                            <ul class="block__list">
+                                <li class="block__list-item">Привозим обед к назначенному времени без опазданий</li>
+                                <li class="block__list-item">Надежно упаковываем блюда в удобные контейнеры бесплатно
+                                </li>
+                                <li class="block__list-item">Доставляем ланчи весь день с 7:00 до 23:00</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="block" id="make_lunch">
+                    <h2 class="block__header">
+                        Топ-5 популрярных блюд
+                    </h2>
+                    <div class="block__body">
+                        <table class="block__table">
+                            <thead>
+                                <tr class="table__row">
+                                    <th class="table__cell"></th>
+                                    <th class="table__cell">Название</th>
+                                    <th class="table__cell">Кол-во заказов в неделю</th>
+                                    <th class="table__cell">Цена</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="table__row">
+                                    <td class="table__cell">1</td>
+                                    <td class="table__cell">Лазанья</td>
+                                    <td class="table__cell">185</td>
+                                    <td class="table__cell">385&#8381;</td>
+                                </tr>
+                                <tr class="table__row">
+                                    <td class="table__cell">2</td>
+                                    <td class="table__cell">Том Ям с креветками</td>
+                                    <td class="table__cell">161</td>
+                                    <td class="table__cell">365&#8381;</td>
+                                </tr>
+                                <tr class="table__row">
+                                    <td class="table__cell">3</td>
+                                    <td class="table__cell">Норвежский суп</td>
+                                    <td class="table__cell">144</td>
+                                    <td class="table__cell">270&#8381;</td>
+                                </tr>
+                                <tr class="table__row">
+                                    <td class="table__cell">4</td>
+                                    <td class="table__cell">Жареная картошка с грибами</td>
+                                    <td class="table__cell">132</td>
+                                    <td class="table__cell">150&#8381;</td>
+                                </tr>
+                                <tr class="table__row">
+                                    <td class="table__cell">5</td>
+                                    <td class="table__cell">Котлеты из курицы с картофельным пюре</td>
+                                    <td class="table__cell">128</td>
+                                    <td class="table__cell">225&#8381;</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <footer class="footer" id="contacts">
+            <div class="footer__info">
+                <p>Позвонить нам:</p>
+                <a class="phone_number" href="tel:+700000000000">+7-000-000-00-00</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="./scripts/main.js"></script>
+</body>
+
+</html>
