@@ -90,7 +90,7 @@ ModalCore.register('payment', modals.payment);
 ModalCore.register('basket', modals.basket);
 
 // ==== Upload Menu =====
-fetch('https://rimashi.github.io/Shipilov-web-dev-2025-1/lab4/scripts/menu.json')
+fetch('https://rimashi.github.io/Shipilov-web-dev-2025-1/lab5/scripts/menu.json')
     .then((res) => {
         if (!res.ok) {
             console.log("error");
@@ -135,6 +135,7 @@ function addMenu(menuJson, element) {
 
     for (const category in grouped) {
         const dishes = grouped[category];
+        console.log(dishes);
 
         let st = `<section class="dish__block" id="${category}">
                     <h2 class="dish__block-name">${ucfirst(dishes[0].category_ru)}</h2>
