@@ -135,6 +135,7 @@ function addMenu(menuJson, element) {
 
     for (const category in grouped) {
         const dishes = grouped[category];
+        
         console.log(dishes);
 
         let st = `<section class="dish__block" id="${category}">
