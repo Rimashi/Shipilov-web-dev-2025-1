@@ -25,6 +25,30 @@
     font-weight: 600;
 }
 
+.dish__block-type {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
+.type__button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--text-color);
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.type__button--selected,
+.type__button:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
 .dish__block-dishes {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -48,6 +72,28 @@
 .dish__block-dish:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.dish__block-dish[style*="display: none"] {
+    opacity: 0;
+    transform: scale(0.8);
+    pointer-events: none;
+}
+
+.dish__block-dish[style*="display: flex"] {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .dish__image {

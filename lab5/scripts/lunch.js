@@ -118,6 +118,57 @@ function ucfirst(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function getRuType(str) {
+    const types = {
+        "vegan": "Веганское",
+        "meat": "Мясное",
+        "fish": "Рыбное",
+        "seafood": "Морепродукты",
+        "cold": "Холодные",
+        "hot": "Горячие",
+    }
+
+    return types[str] || str;
+}
+
+// ===== FILTER FUNCTIONALITY =====
+function initFilters() {
+    // Обработчики для кнопок фильтров
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('type__button')) {
+            const button = e.target;
+            const section = button.closest('.dish__block');
+            const filterType = button.dataset.type;
+
+            section.querySelectorAll('.type__button').forEach(btn => {
+                btn.classList.remove('type__button--selected');
+            });
+            button.classList.add('type__button--selected');
+
+            filterDishes(section, filterType);
+        }
+    });
+}
+
+function filterDishes(section, filterType) {
+    const dishes = section.querySelectorAll('.dish__block-dish');
+
+    dishes.forEach(dish => {
+        if (filterType === 'all') {
+            dish.style.display = 'flex';
+        } else {
+            const dishType = dish.dataset.type;
+            dish.style.display = dishType === filterType ? 'flex' : 'none';
+        }
+    });
+}
+
+function getAllTypesForCatagery(menuList) {
+    const typesSet = new Set();
+    menuList.forEach(item => typesSet.add(item.type));
+    return Array.from(typesSet);
+}
+
 function addMenu(menuJson, element) {
     const menuList = groupByCategory(menuJson);
     const menuBlock = element;
@@ -135,16 +186,25 @@ function addMenu(menuJson, element) {
 
     for (const category in grouped) {
         const dishes = grouped[category];
-        
+
         console.log(dishes);
 
         let st = `<section class="dish__block" id="${category}">
                     <h2 class="dish__block-name">${ucfirst(dishes[0].category_ru)}</h2>
+                    <div class="dish__block-type">
+                        <button class="type__button type__button--selected" data-type="all">Все</button>`;
+
+        let allTypes = getAllTypesForCatagery(dishes);
+        allTypes.forEach(type => {
+            st += `<button class="type__button" data-type="${type}">${getRuType(type)}</button>`;
+        });
+
+        st += `     </div>
                     <div class="dish__block-dishes">`;
 
         dishes.forEach(item => {
             st += `
-                <div class="dish__block-dish" data-id="${item.id}" data-price="${item.price}">
+                <div class="dish__block-dish" data-id="${item.id}" data-price="${item.price}" data-type="${item.type}">
                     <div class="dish__image">
                         <img src="${item.img}" alt="${ucfirst(item.name)}">
                     </div>
@@ -167,6 +227,8 @@ function addMenu(menuJson, element) {
 
     sidebarNav.innerHTML = sidebarNavSt;
     menuBlock.innerHTML = appendList.join('');
+
+    initFilters();
 }
 
 // ===== SIMPLE CART =====
@@ -180,8 +242,6 @@ class SimpleCart {
         this.bindEvents();
         this.initFloatingCart();
     }
-
-    // всплытие и погружение, разница между localstorage/session storage
 
     loadCart() {
         try {

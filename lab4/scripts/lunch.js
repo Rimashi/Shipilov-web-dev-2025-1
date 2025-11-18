@@ -179,8 +179,6 @@ class SimpleCart {
         this.initFloatingCart();
     }
 
-    // всплытие и погружение, разница между localstorage/session storage
-
     loadCart() {
         try {
             return JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '[]');
