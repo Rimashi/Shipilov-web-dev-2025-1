@@ -1,0 +1,172 @@
+[
+    {
+        "id": "gazpacho",
+        "name": "гаспачо",
+        "category": "soups",
+        "category_ru": "супы",
+        "price": 195,
+        "weight": "350 г",
+        "type": "vegan",
+        "img": "../lab4/images/menu/soups/gazpacho.jpg"
+    },
+    {
+        "id": "norwegian_soup",
+        "name": "норвежский суп",
+        "category": "soups",
+        "category_ru": "супы",
+        "price": 270,
+        "weight": "330 г",
+        "type": "fish",
+        "img": "../lab4/images/menu/soups/norwegian_soup.jpg"
+    },
+    {
+        "id": "mushroom_soup",
+        "name": "грибной суп-пюре",
+        "category": "soups",
+        "category_ru": "супы",
+        "price": 185,
+        "weight": "330 г",
+        "type": "vegan",
+        "img": "../lab4/images/menu/soups/mushroom_soup.jpg"
+    },
+    {
+        "id": "salmorejo",
+        "name": "сальморехо",
+        "category": "soups",
+        "category_ru": "супы",
+        "price": 210,
+        "weight": "300 г",
+        "type": "vegan",
+        "img": "../lab4/images/menu/soups/salmorejo.jpeg"
+    },
+    {
+        "id": "ukha",
+        "name": "уха царская",
+        "category": "soups",
+        "category_ru": "супы",
+        "price": 350,
+        "weight": "400 г",
+        "type": "fish",
+        "img": "../lab4/images/menu/soups/ukha.jpeg"
+    },
+    {
+        "id": "beef_soup",
+        "name": "суп с говядиной и овощами",
+        "category": "soups",
+        "category_ru": "супы",
+        "price": 280,
+        "weight": "350 г",
+        "type": "meat",
+        "img": "../lab4/images/menu/soups/beef_soup.jpeg"
+    },
+    {
+        "id": "fried_potatoes",
+        "name": "жареная картошка с грибами",
+        "category": "hots",
+        "category_ru": "горячее",
+        "price": 150,
+        "weight": "250 г",
+        "type": "vegan",
+        "img": "../lab4/images/menu/main_course/friedpotatoeswithmushrooms.jpg"
+    },
+    {
+        "id": "chicken_cutlets",
+        "name": "котлеты из курицы с картофельным пюре",
+        "category": "hots",
+        "category_ru": "горячее",
+        "price": 225,
+        "weight": "280 г",
+        "type": "meat",
+        "img": "../lab4/images/menu/main_course/chickencutletsandmashedpotatoes.jpg"
+    },
+    {
+        "id": "lasagna",
+        "name": "лазанья",
+        "category": "hots",
+        "category_ru": "горячее",
+        "price": 385,
+        "weight": "310 г",
+        "type": "meat",
+        "img": "../lab4/images/menu/main_course/lasagna.jpg"
+    },
+    {
+        "id": "shrimp_carrot",
+        "name": "креветки в остром морковном соусе",
+        "category": "hots",
+        "category_ru": "горячее",
+        "price": 420,
+        "weight": "280 г",
+        "type": "vegan",
+        "img": "../lab4/images/menu/main_course/shrimp_carrot.jpeg"
+    },
+    {
+        "id": "veg_risotto",
+        "name": "ризотто с овощами",
+        "category": "hots",
+        "category_ru": "горячее",
+        "price": 320,
+        "weight": "300 г",
+        "type": "vegan",
+        "img": "../lab4/images/menu/main_course/veg_risotto.jpeg"
+    },
+    {
+        "id": "beef_stroganoff",
+        "name": "бефстроганов с пюре",
+        "category": "hots",
+        "category_ru": "горячее",
+        "price": 380,
+        "weight": "320 г",
+        "type": "meat",
+        "img": "../lab4/images/menu/main_course/beef_stroganoff.jpeg"
+    },
+    {
+        "id": "apple_juice",
+        "name": "яблочный сок",
+        "category": "drinks",
+        "category_ru": "напитки",
+        "price": 90,
+        "weight": "300 мл",
+        "type": "cold",
+        "img": "../lab4/images/menu/beverages/applejuice.jpg"
+    },
+    {
+        "id": "orange_juice",
+        "name": "апельсиновый сок",
+        "category": "drinks",
+        "category_ru": "напитки",
+        "price": 120,
+        "weight": "330 мл",
+        "type": "cold",
+        "img": "../lab4/images/menu/beverages/orangejuice.jpg"
+    },
+    {
+        "id": "carrot_juice",
+        "name": "морковный сок",
+        "category": "drinks",
+        "category_ru": "напитки",
+        "price": 110,
+        "weight": "300 мл",
+        "type": "cold",
+        "img": "../lab4/images/menu/beverages/carrotjuice.jpg"
+    },
+    {
+        "id": "tomato_juice",
+        "name": "томатный сок",
+        "category": "drinks",
+        "category_ru": "напитки",
+        "price": 95,
+        "weight": "300 мл",
+        "type": "cold",
+        "img": "../lab4/images/menu/beverages/tomato_juice.jpeg"
+    },
+    {
+        "id": "mors",
+        "name": "ягодный морс",
+        "category": "drinks",
+        "category_ru": "напитки",
+        "price": 130,
+        "weight": "330 мл",
+        "type": "cold",
+        "img": "../lab4/images/menu/beverages/mors.jpeg"
+    }
+]

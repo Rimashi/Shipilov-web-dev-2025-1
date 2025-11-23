@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Configure page">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/lunch.css">
+    <title>Food Construct</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="menu__overlay" id="menu_overlay"></div>
+
+        <header class="header">
+            <div class="header__container _container">
+                <div class="header__top">
+                    <div class="header__logo">
+                        <h1><a href="index.html">Food Construct</a></h1>
+                    </div>
+
+                    <button class="theme-toggle" id="themeToggle" type="button">🌙</button>
+                </div>
+
+                <div class="menu__icon" id="menuIcon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <nav class="header__menu menu" id="headerMenu">
+                    <ul class="menu__list">
+                        <li class="menu__item"><a href="./index.html">О нас</a></li>
+                        <li class="menu__item menu__item--active"><a href="./lunch.html">Собрать ланч</a></li>
+                        <li class="menu__item"><a href="./order_place.html">Оформить заказ</a></li>
+                        <li class="menu__item"><a href="./orders.html">Заказы</a></li>
+                        <li class="menu__item"><a href="#contacts">Контакты</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="main__container _container">
+
+                <div class="main__content">
+                    <div class="blocks" id="dish_menu">
+
+                    </div>
+
+                    <!-- Боковое меню -->
+                    <aside class="side__menu">
+                        <nav class="side__nav">
+                            <ul>
+
+                            </ul>
+                        </nav>
+
+                        <section class="side__menu-basket" aria-label="Корзина">
+                            <h3 class="side__basket-name">Корзина</h3>
+
+                            <div class="cart-wrapper" id="cartWrapper">
+                                <ul id="cartList" class="cart-list" role="list" aria-live="polite">
+
+                                </ul>
+                            </div>
+
+                            <div class="cart-footer">
+                                <div class="cart-total small-muted">Итого: <strong id="cartTotal">0₽</strong></div>
+                                <button id="checkoutBtn" class="fullwidth" type="button">Перейти к оплате</button>
+                            </div>
+
+                            <button id="cartToggle" type="button" data-modal-open="basket">Развернуть</button>
+                        </section>
+                    </aside>
+                </div>
+            </div>
+
+            <!-- Плавающая панель корзины -->
+            <div class="floating-cart" id="floatingCart">
+                <div class="floating-cart__info">
+                    <span class="floating-cart__count" id="floatingCartCount">0 товаров</span>
+                    <span class="floating-cart__total" id="floatingCartTotal">0₽</span>
+                </div>
+                <button class="floating-cart__btn btn btn--primary" id="floatingCartBtn" type="button">Корзина</button>
+            </div>
+        </main>
+
+        <footer class="footer" id="contacts">
+            <div class="footer__info">
+                <p>Позвонить нам:</p>
+                <a class="phone_number" href="tel:+700000000000">+7-000-000-00-00</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="./scripts/main.js"></script>
+    <script src="./scripts/notifications.js"></script>
+    <script src="./scripts/lunch.js"></script>
+</body>
+
+</html>
