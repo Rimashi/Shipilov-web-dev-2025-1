@@ -8,7 +8,7 @@ class FoodConstructAPI {
     async getDishes() {
         try {
             const response = await fetch(
-                `${this.baseUrl}/dishes?key=${this.key}`,
+                `${this.baseUrl}/dishes?api_key=${this.key}`,
                 {
                     headers: {
                         'Accept': 'application/json'
@@ -29,7 +29,7 @@ class FoodConstructAPI {
     async getDishById(id) {
         try {
             const response = await fetch(
-                `${this.baseUrl}/dishes/${id}?key=${this.key}`,
+                `${this.baseUrl}/dishes/${id}?api_key=${this.key}`,
                 {
                     headers: {
                         'Accept': 'application/json'
@@ -49,28 +49,27 @@ class FoodConstructAPI {
     // Создать новый заказ
     async createOrder(orderData) {
         try {
-            console.log('Sending order data:', orderData);
-            console.log('URL:', `${this.baseUrl}/orders?key=${this.key}`);
+            // Добавляем api_key в тело запроса
+            const dataWithKey = {
+                ...orderData,
+                api_key: this.key
+            };
+
+            console.log('Sending order data:', dataWithKey);
+            console.log('URL:', `${this.baseUrl}/orders`);
 
             const response = await fetch(
-                `${this.baseUrl}/orders?key=${this.key}`,
+                `http://localhost:8000/labs/api/orders`,
                 {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        // Попробуйте добавить эти заголовки
-                        'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-                        'Access-Control-Allow-Headers': 'Content-Type'
+                        'Accept': 'application/json'
                     },
-                    body: JSON.stringify(orderData),
-                    mode: 'cors',
-                    credentials: 'omit' // Явно указываем без credentials
+                    body: JSON.stringify(dataWithKey),
                 });
 
             console.log('Response status:', response.status);
-            console.log('Response headers:', response.headers);
 
             if (!response.ok) {
                 let errorText;
@@ -96,7 +95,7 @@ class FoodConstructAPI {
     async getOrders() {
         try {
             const response = await fetch(
-                `${this.baseUrl}/orders?key=${this.key}`,
+                `http://localhost:8000/labs/api/orders`,
                 {
                     headers: {
                         'Accept': 'application/json'
@@ -104,7 +103,7 @@ class FoodConstructAPI {
                 }
             );
             if (!response.ok) {
-                throw new Error('Ошибка загрузки заказов');
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
             return await response.json();
         } catch (error) {
@@ -117,7 +116,7 @@ class FoodConstructAPI {
     async getOrderById(id) {
         try {
             const response = await fetch(
-                `${this.baseUrl}/orders/${id}?key=${this.key}`,
+                `http://localhost:8000/labs/api/orders/${id}`,
                 {
                     headers: {
                         'Accept': 'application/json'
@@ -125,11 +124,11 @@ class FoodConstructAPI {
                 }
             );
             if (!response.ok) {
-                throw new Error('Ошибка загрузки заказа');
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
             return await response.json();
         } catch (error) {
-            console.error('Ошибка загрузки заказа:', error);
+            console.error('API Error (getOrderById):', error);
             throw error;
         }
     }
@@ -137,43 +136,78 @@ class FoodConstructAPI {
     // Изменить заказ
     async updateOrder(id, orderData) {
         try {
+            // Добавляем api_key в тело запроса
+            const dataWithKey = {
+                ...orderData,
+                api_key: this.key
+            };
+
+            console.log('Updating order:', id, dataWithKey);
+
             const response = await fetch(
-                `${this.baseUrl}/orders/${id}?key=${this.key}`,
+                `http://localhost:8000/labs/api/orders/${id}`,
                 {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
                     },
-                    body: JSON.stringify(orderData)
+                    body: JSON.stringify(dataWithKey),
                 });
 
+            console.log('Update response status:', response.status);
+
             if (!response.ok) {
-                throw new Error('Ошибка обновления заказа');
+                let errorText;
+                try {
+                    errorText = await response.text();
+                } catch (e) {
+                    errorText = 'Не удалось получить текст ошибки';
+                }
+                console.error('Server error response:', errorText);
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-            return await response.json();
+
+            const result = await response.json();
+            console.log('Order updated successfully:', result);
+            return result;
         } catch (error) {
             console.error('API Error (updateOrder):', error);
             throw error;
         }
     }
 
+
     // Удалить заказ
     async deleteOrder(id) {
         try {
+            console.log('Deleting order:', id);
+
             const response = await fetch(
-                `${this.baseUrl}/orders/${id}?key=${this.key}`,
+                `http://localhost:8000/labs/api/orders/${id}`,
                 {
                     method: 'DELETE',
                     headers: {
                         'Accept': 'application/json'
-                    }
+                    },
                 });
 
+            console.log('Delete response status:', response.status);
+
             if (!response.ok) {
-                throw new Error('Ошибка удаления заказа');
+                let errorText;
+                try {
+                    errorText = await response.text();
+                } catch (e) {
+                    errorText = 'Не удалось получить текст ошибки';
+                }
+                console.error('Server error response:', errorText);
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-            return await response.json();
+
+            const result = await response.json();
+            console.log('Order deleted successfully:', result);
+            return result;
         } catch (error) {
             console.error('API Error (deleteOrder):', error);
             throw error;

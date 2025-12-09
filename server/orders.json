@@ -1,0 +1,79 @@
+{
+  "1": {
+    "order_id": 1,
+    "api_key": "42fea230-497a-44ef-9980-21238395e175",
+    "full_name": "чмаыы",
+    "email": "sdafs@zc.com",
+    "phone": "+7 (444) 444-44-44",
+    "comment": "",
+    "delivery_address": "svsvx",
+    "delivery_type": "now",
+    "subscribe": true,
+    "dish_ids": [
+      1,
+      1,
+      2,
+      2,
+      19
+    ],
+    "created_at": "2025-12-09T12:10:06.151432",
+    "updated_at": "2025-12-09T12:10:06.151432"
+  },
+  "2": {
+    "api_key": "42fea230-497a-44ef-9980-21238395e175",
+    "full_name": "sdaas",
+    "email": "asdds@asdsa.com",
+    "phone": "+7 (444) 444-44-44",
+    "comment": "",
+    "delivery_address": "dfsd",
+    "delivery_type": "by_time",
+    "delivery_time": "14:00",
+    "subscribe": true,
+    "dish_ids": [
+      3,
+      2,
+      8,
+      12,
+      14,
+      30
+    ],
+    "order_id": 2,
+    "created_at": "2025-12-09T12:17:20.989102",
+    "updated_at": "2025-12-09T12:17:20.989102"
+  },
+  "3": {
+    "api_key": "42fea230-497a-44ef-9980-21238395e175",
+    "full_name": "sfsfsd",
+    "email": "asdds@asdsa.com",
+    "phone": "+7 (234) 234-24-23",
+    "comment": "",
+    "delivery_address": "asdfsdf",
+    "delivery_type": "now",
+    "subscribe": false,
+    "dish_ids": [
+      2,
+      8,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26
+    ],
+    "order_id": 3,
+    "created_at": "2025-12-09T12:18:09.861319",
+    "updated_at": "2025-12-09T12:18:09.861319"
+  }
+}

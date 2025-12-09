@@ -59,7 +59,7 @@ class FoodConstructAPI {
             console.log('URL:', `${this.baseUrl}/orders`);
 
             const response = await fetch(
-                `${this.baseUrl}/orders?api_key=${this.key}`,
+                `http://localhost:8000/labs/api/orders`,
                 {
                     method: 'POST',
                     headers: {
@@ -67,7 +67,6 @@ class FoodConstructAPI {
                         'Accept': 'application/json'
                     },
                     body: JSON.stringify(dataWithKey),
-                    mode: 'cors'
                 });
 
             console.log('Response status:', response.status);
@@ -96,7 +95,7 @@ class FoodConstructAPI {
     async getOrders() {
         try {
             const response = await fetch(
-                `${this.baseUrl}/orders?api_key=${this.key}`,
+                `http://localhost:8000/labs/api/orders`,
                 {
                     headers: {
                         'Accept': 'application/json'
@@ -117,7 +116,7 @@ class FoodConstructAPI {
     async getOrderById(id) {
         try {
             const response = await fetch(
-                `${this.baseUrl}/orders/${id}?api_key=${this.key}`,
+                `http://localhost:8000/labs/api/orders/${id}`,
                 {
                     headers: {
                         'Accept': 'application/json'
@@ -146,7 +145,7 @@ class FoodConstructAPI {
             console.log('Updating order:', id, dataWithKey);
 
             const response = await fetch(
-                `${this.baseUrl}/orders/${id}`,
+                `http://localhost:8000/labs/api/orders/${id}`,
                 {
                     method: 'PUT',
                     headers: {
@@ -154,7 +153,6 @@ class FoodConstructAPI {
                         'Accept': 'application/json'
                     },
                     body: JSON.stringify(dataWithKey),
-                    mode: 'cors'
                 });
 
             console.log('Update response status:', response.status);
@@ -186,13 +184,12 @@ class FoodConstructAPI {
             console.log('Deleting order:', id);
 
             const response = await fetch(
-                `${this.baseUrl}/orders/${id}?api_key=${this.key}`,
+                `http://localhost:8000/labs/api/orders/${id}`,
                 {
                     method: 'DELETE',
                     headers: {
                         'Accept': 'application/json'
                     },
-                    mode: 'cors'
                 });
 
             console.log('Delete response status:', response.status);

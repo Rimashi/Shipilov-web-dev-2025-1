@@ -1,0 +1,23 @@
+package-lock.json
+package.json
+
+# Ignore the entire 'node_modules' directory
+node_modules/
+
+# Ignore all files inside the 'build' directory
+build/*
+
+# Ignore all files ending with .tmp, but not important.tmp
+*.tmp
+!important.tmp
+
+*.mjs
+*.htmlhintrc
+
+# Ignore IDE-specific files (e.g., for Visual Studio Code)
+.vscode/
+
+# Ignore Python-specific files
+__pycache__/
+*.pyc
+.venv/

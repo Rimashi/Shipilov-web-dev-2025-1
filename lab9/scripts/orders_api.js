@@ -1,4 +1,3 @@
-// ===== MODALS FOR ORDERS API =====
 const modals = {
     "order_info": `
     <div class="modal__background" role="presentation" data-modal="order_info">
@@ -14,7 +13,8 @@ const modals = {
                         <div class="info__grid">
                             <div class="info__item">
                                 <span class="info__label">Статус:</span>
-                                <span class="info__value" id="orderStatus"></span>
+                                <span class="info__value" id="orderStatus">
+                                </span>
                             </div>
                             <div class="info__item">
                                 <span class="info__label">Дата создания:</span>
@@ -22,11 +22,15 @@ const modals = {
                             </div>
                             <div class="info__item">
                                 <span class="info__label">Время доставки:</span>
-                                <span class="info__value" id="deliveryTime"></span>
+                                <span class="info__value" id="deliveryTime">
+                                </span>
                             </div>
                             <div class="info__item">
-                                <span class="info__label">Способ доставки:</span>
-                                <span class="info__value" id="deliveryType"></span>
+                                <span class="info__label">
+                                    Способ доставки:
+                                </span>
+                                <span class="info__value" id="deliveryType">
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -35,31 +39,46 @@ const modals = {
                         <h3>Данные клиента</h3>
                         <div class="info__grid">
                             <div class="info__item">
-                                <span class="info__label">Имя:</span>
-                                <span class="info__value" id="customerName"></span>
+                                <span class="info__label">
+                                    Имя:
+                                </span>
+                                <span class="info__value" id="customerName">
+                                </span>
                             </div>
                             <div class="info__item">
-                                <span class="info__label">Телефон:</span>
-                                <span class="info__value" id="customerPhone"></span>
+                                <span class="info__label">
+                                    Телефон:
+                                </span>
+                                <span class="info__value" id="customerPhone">
+                                </span>
                             </div>
                             <div class="info__item">
-                                <span class="info__label">Адрес:</span>
-                                <span class="info__value" id="customerAddress"></span>
+                                <span class="info__label">
+                                    Адрес:
+                                </span>
+                                <span class="info__value" id="customerAddress">
+                                </span>
                             </div>
                             <div class="info__item">
-                                <span class="info__label">Email:</span>
-                                <span class="info__value" id="customerEmail"></span>
+                                <span class="info__label">
+                                    Email:
+                                </span>
+                                <span class="info__value" id="customerEmail">
+                                </span>
                             </div>
                         </div>
                     </div>
 
                     <div class="order__items-section">
                         <h3>Состав заказа</h3>
-                        <div class="order__items-list" id="orderItemsList"></div>
+                        <div class="order__items-list" id="orderItemsList">
+                            <!-- Товары будут загружены через JS -->
+                        </div>
                         <div class="order__total-section">
                             <div class="total__line">
                                 <span>Итого:</span>
-                                <span class="total__amount" id="orderTotalAmount"></span>
+                                <span class="total__amount" id="orderTotalAmount">
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -100,7 +119,7 @@ const modals = {
                     </div>
                     <div class="form-group">
                         <label for="editDeliveryAddress">Адрес доставки:</label>
-                        <textarea id="editDeliveryAddress" name="delivery_address" required></textarea>
+                        <textarea id="editDeliveryAddress" name="delivery_address" placeholder="Введите адрес доставки..." required></textarea>
                     </div>
                     <div class="form-group">
                         <label for="editDeliveryType">Время доставки:</label>
@@ -121,7 +140,7 @@ const modals = {
                     </div>
                     <div class="form-group">
                         <label for="editComment">Комментарий к заказу:</label>
-                        <textarea id="editComment" name="comment"></textarea>
+                        <textarea id="editComment" name="comment" placeholder="Ваши пожелания к заказу..."></textarea>
                     </div>
                     <div class="form-group">
                         <label for="editStatus">Статус заказа:</label>
@@ -146,12 +165,11 @@ const modals = {
 ModalCore.register('order_info', modals.order_info);
 ModalCore.register('edit_order', modals.edit_order);
 
-// ===== ORDERS API MANAGER =====
 class OrdersAPIManager {
     constructor() {
         this.orders = [];
         this.currentOrderId = null;
-        this.dishesCache = new Map();
+        this.dishesCache = new Map(); // Кэш для блюд
         this.init();
     }
 
@@ -159,7 +177,6 @@ class OrdersAPIManager {
         await this.loadOrders();
         this.renderOrders();
         this.bindEvents();
-        this.setupPhoneMask();
     }
 
     async loadOrders() {
@@ -175,32 +192,25 @@ class OrdersAPIManager {
     }
 
     async loadDishesForOrder(order) {
+        // Загружаем информацию о блюдах для заказа
         const dishesWithDetails = [];
-
-        // Считаем количество каждого блюда
-        const dishCounts = {};
-        order.dish_ids.forEach(id => {
-            dishCounts[id] = (dishCounts[id] || 0) + 1;
-        });
-
-        // Загружаем информацию о каждом уникальном блюде
-        for (const [dishId, count] of Object.entries(dishCounts)) {
+        
+        for (const dishId of order.dish_ids) {
             if (this.dishesCache.has(dishId)) {
-                const dish = this.dishesCache.get(dishId);
-                dishesWithDetails.push({ ...dish, quantity: count });
+                dishesWithDetails.push(this.dishesCache.get(dishId));
             } else {
                 try {
                     const dish = await basketAPI.getDishById(dishId);
                     if (dish) {
                         this.dishesCache.set(dishId, dish);
-                        dishesWithDetails.push({ ...dish, quantity: count });
+                        dishesWithDetails.push(dish);
                     }
                 } catch (error) {
                     console.error(`Failed to load dish ${dishId}:`, error);
                 }
             }
         }
-
+        
         return dishesWithDetails;
     }
 
@@ -212,7 +222,7 @@ class OrdersAPIManager {
             const activeOrders = this.orders.filter(order => order.status === 'active');
             activeOrdersCount.textContent = activeOrders.length;
         }
-
+        
         if (totalOrdersCount) {
             totalOrdersCount.textContent = this.orders.length;
         }
@@ -251,7 +261,7 @@ class OrdersAPIManager {
 
     async calculateOrderTotal(order) {
         const dishes = await this.loadDishesForOrder(order);
-        return dishes.reduce((total, dish) => total + (dish.price * dish.quantity), 0);
+        return dishes.reduce((total, dish) => total + dish.price, 0);
     }
 
     async renderOrders() {
@@ -266,7 +276,7 @@ class OrdersAPIManager {
 
         // Рендерим активные заказы
         await this.renderOrderList(activeOrdersList, activeOrders, true);
-
+        
         // Рендерим завершенные заказы
         await this.renderOrderList(completedOrdersList, completedOrders, false);
 
@@ -280,7 +290,7 @@ class OrdersAPIManager {
         }
 
         container.innerHTML = '';
-
+        
         for (const order of orders) {
             const orderElement = await this.createOrderCard(order, isActive);
             container.appendChild(orderElement);
@@ -293,7 +303,7 @@ class OrdersAPIManager {
             <div class="empty__state">
                 <h3>У вас нет активных заказов</h3>
                 <p>Сделайте заказ на странице "Собрать ланч"</p>
-                <a href="./lunch.html" class="btn btn-primary">
+                <a href="./lunch.html" class="btn btn__primary">
                     Сделать заказ
                 </a>
             </div>
@@ -311,15 +321,15 @@ class OrdersAPIManager {
     async createOrderCard(order, isActive) {
         const total = await this.calculateOrderTotal(order);
         const dishes = await this.loadDishesForOrder(order);
-
+        
         const div = document.createElement('div');
         div.className = `order__card ${!isActive ? 'completed' : ''}`;
         div.dataset.orderId = order.id;
-
-        const itemsPreview = dishes.slice(0, 2).map(dish =>
-            `${dish.name} (${dish.quantity} шт.)`
+        
+        const itemsPreview = dishes.slice(0, 2).map(dish => 
+            `${dish.name} (1 шт.)`
         ).join(', ');
-
+        
         const hiddenItemsCount = dishes.length - 2;
         let itemsText = itemsPreview;
         if (hiddenItemsCount > 0) {
@@ -368,7 +378,7 @@ class OrdersAPIManager {
                 </div>
             </div>
         `;
-
+        
         return div;
     }
 
@@ -399,24 +409,24 @@ class OrdersAPIManager {
             const dishes = await this.loadDishesForOrder(order);
             const container = document.getElementById('orderItemsList');
             const totalAmount = document.getElementById('orderTotalAmount');
-
+            
             if (container) {
                 container.innerHTML = dishes.map(dish => `
                     <div class="order__item">
                         <div class="item__info">
                             <div class="item__name">${dish.name}</div>
-                            <div class="item__meta">${dish.price}₽ × ${dish.quantity} шт.</div>
+                            <div class="item__meta">${dish.price}₽ × 1 шт.</div>
                         </div>
-                        <div class="item__total">${this.formatPrice(dish.price * dish.quantity)}₽</div>
+                        <div class="item__total">${dish.price}₽</div>
                     </div>
                 `).join('');
             }
-
+            
             if (totalAmount) {
-                const total = dishes.reduce((sum, dish) => sum + (dish.price * dish.quantity), 0);
+                const total = dishes.reduce((sum, dish) => sum + dish.price, 0);
                 totalAmount.textContent = `${this.formatPrice(total)}₽`;
             }
-
+            
         } catch (error) {
             console.error('Failed to load order details:', error);
             notifications.error('Не удалось загрузить детали заказа');
@@ -441,20 +451,27 @@ class OrdersAPIManager {
             document.getElementById('editSubscribe').checked = order.subscribe;
             document.getElementById('editPhone').value = order.phone;
             document.getElementById('editDeliveryAddress').value = order.delivery_address;
-
+            
             // Тип доставки
-            const deliveryTypeRadios = document.querySelectorAll('input[name="editDeliveryType"]');
             if (order.delivery_type === 'now') {
-                deliveryTypeRadios[0].checked = true;
+                document.querySelector('input[name="editDeliveryType"][value="now"]').checked = true;
                 document.getElementById('editDeliveryTimeContainer').classList.add('hidden');
             } else {
-                deliveryTypeRadios[1].checked = true;
+                document.querySelector('input[name="editDeliveryType"][value="by_time"]').checked = true;
                 document.getElementById('editDeliveryTimeContainer').classList.remove('hidden');
                 document.getElementById('editDeliveryTime').value = order.delivery_time;
             }
-
+            
             document.getElementById('editComment').value = order.comment || '';
             document.getElementById('editStatus').value = order.status;
+
+            // Обработчик изменения типа доставки
+            document.querySelectorAll('input[name="editDeliveryType"]').forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    const showTime = e.target.value === 'by_time';
+                    document.getElementById('editDeliveryTimeContainer').classList.toggle('hidden', !showTime);
+                });
+            });
 
         } catch (error) {
             console.error('Failed to load order for editing:', error);
@@ -514,34 +531,18 @@ class OrdersAPIManager {
         }
     }
 
-    setupPhoneMask() {
-        const editPhoneInput = document.getElementById('editPhone');
-        if (editPhoneInput) {
-            editPhoneInput.addEventListener('input', (e) => {
-                let value = e.target.value.replace(/\D/g, '');
-                if (value.startsWith('7') || value.startsWith('8')) {
-                    value = value.substring(1);
-                }
-                if (value.length > 0) {
-                    value = '+7 (' + value.substring(0, 3) + ') ' + value.substring(3, 6) + '-' + value.substring(6, 8) + '-' + value.substring(8, 10);
-                }
-                e.target.value = value;
-            });
-        }
-    }
-
     bindEvents() {
         // Обработчики вкладок
         document.addEventListener('click', (e) => {
             if (e.target.classList.contains('tab__btn')) {
                 const tab = e.target.dataset.tab;
-
+                
                 // Обновляем активные вкладки
-                document.querySelectorAll('.tab__btn').forEach(b =>
+                document.querySelectorAll('.tab__btn').forEach(b => 
                     b.classList.remove('tab__btn--active'));
-                document.querySelectorAll('.tab__content').forEach(c =>
+                document.querySelectorAll('.tab__content').forEach(c => 
                     c.classList.remove('tab__content--active'));
-
+                
                 e.target.classList.add('tab__btn--active');
                 const contentElement = document.getElementById(`${tab}Orders`);
                 if (contentElement) {
@@ -581,24 +582,27 @@ class OrdersAPIManager {
             }
         });
 
-        // Обработчик изменения типа доставки в форме редактирования
-        document.addEventListener('change', (e) => {
-            if (e.target.name === 'editDeliveryType') {
-                const showTime = e.target.value === 'by_time';
-                const container = document.getElementById('editDeliveryTimeContainer');
-                const timeInput = document.getElementById('editDeliveryTime');
-
-                if (container) container.classList.toggle('hidden', !showTime);
-                if (timeInput) timeInput.required = showTime;
-            }
-        });
-
         // Обработчик формы редактирования
         const editForm = document.getElementById('editOrderForm');
         if (editForm) {
             editForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 await this.updateOrder();
+            });
+        }
+
+        // Маска для телефона в форме редактирования
+        const editPhoneInput = document.getElementById('editPhone');
+        if (editPhoneInput) {
+            editPhoneInput.addEventListener('input', (e) => {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.startsWith('7') || value.startsWith('8')) {
+                    value = value.substring(1);
+                }
+                if (value.length > 0) {
+                    value = '+7 (' + value.substring(0, 3) + ') ' + value.substring(3, 6) + '-' + value.substring(6, 8) + '-' + value.substring(8, 10);
+                }
+                e.target.value = value;
             });
         }
     }
