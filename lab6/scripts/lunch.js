@@ -126,12 +126,25 @@ function getRuType(str) {
         "seafood": "Морепродукты",
         "cold": "Холодные",
         "hot": "Горячие",
-    }
+    };
 
     return types[str] || str;
 }
 
 // ===== FILTER FUNCTIONALITY =====
+function filterDishes(section, filterType) {
+    const dishes = section.querySelectorAll('.dish__block-dish');
+
+    dishes.forEach(dish => {
+        if (filterType === 'all') {
+            dish.style.display = 'flex';
+        } else {
+            const dishType = dish.dataset.type;
+            dish.style.display = dishType === filterType ? 'flex' : 'none';
+        }
+    });
+}
+
 function initFilters() {
     // Обработчики для кнопок фильтров
     document.addEventListener('click', (e) => {
@@ -150,85 +163,12 @@ function initFilters() {
     });
 }
 
-function filterDishes(section, filterType) {
-    const dishes = section.querySelectorAll('.dish__block-dish');
-
-    dishes.forEach(dish => {
-        if (filterType === 'all') {
-            dish.style.display = 'flex';
-        } else {
-            const dishType = dish.dataset.type;
-            dish.style.display = dishType === filterType ? 'flex' : 'none';
-        }
-    });
-}
-
 function getAllTypesForCatagery(menuList) {
     const typesSet = new Set();
     menuList.forEach(item => typesSet.add(item.type));
     return Array.from(typesSet);
 }
 
-function addMenu(menuJson, element) {
-    const menuBlock = element;
-    const sidebarNav = document.querySelector('.side__nav ul');
-
-    let appendList = [];
-    sidebarNav.innerHTML = '';
-    let sidebarNavSt = ``;
-
-    const grouped = menuJson.reduce((acc, item) => {
-        if (!acc[item.category]) acc[item.category] = [];
-        acc[item.category].push(item);
-        return acc;
-    }, {});
-
-    for (const category in grouped) {
-        const dishes = grouped[category];
-
-        console.log(dishes);
-
-        let st = `<section class="dish__block" id="${category}">
-                    <h2 class="dish__block-name">${ucfirst(dishes[0].category_ru)}</h2>
-                    <div class="dish__block-type">
-                        <button class="type__button type__button--selected" data-type="all">Все</button>`;
-
-        let allTypes = getAllTypesForCatagery(dishes);
-        allTypes.forEach(type => {
-            st += `<button class="type__button" data-type="${type}">${getRuType(type)}</button>`;
-        });
-
-        st += `     </div>
-                    <div class="dish__block-dishes">`;
-
-        dishes.forEach(item => {
-            st += `
-                <div class="dish__block-dish" data-id="${item.id}" data-price="${item.price}" data-type="${item.type}">
-                    <div class="dish__image">
-                        <img src="${item.img}" alt="${ucfirst(item.name)}">
-                    </div>
-                    <div class="dish__price">
-                        <p>${item.price}₽</p>
-                    </div>
-                    <div class="dish__name">
-                        <p>${ucfirst(item.name)}</p>
-                    </div>
-                    <div class="dish__weight">${item.weight}</div>
-                    <div class="dish__add-button"><input type="button" value="Добавить"></div>
-                </div>
-            `;
-        });
-
-        st += `</div></section>`;
-        appendList.push(st);
-        sidebarNavSt += `<li><a href="#${category}">${ucfirst(dishes[0].category_ru)}</a></li>`
-    }
-
-    sidebarNav.innerHTML = sidebarNavSt;
-    menuBlock.innerHTML = appendList.join('');
-
-    initFilters();
-}
 
 // ===== SIMPLE CART =====
 class SimpleCart {

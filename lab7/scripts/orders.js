@@ -13,7 +13,8 @@ const modals = {
                         <div class="info__grid">
                             <div class="info__item">
                                 <span class="info__label">Статус:</span>
-                                <span class="info__value" id="orderStatus"></span>
+                                <span class="info__value" id="orderStatus">
+                                </span>
                             </div>
                             <div class="info__item">
                                 <span class="info__label">Дата создания:</span>
@@ -21,11 +22,15 @@ const modals = {
                             </div>
                             <div class="info__item">
                                 <span class="info__label">Время доставки:</span>
-                                <span class="info__value" id="deliveryTime"></span>
+                                <span class="info__value" id="deliveryTime">
+                                </span>
                             </div>
                             <div class="info__item">
-                                <span class="info__label">Способ доставки:</span>
-                                <span class="info__value" id="deliveryType"></span>
+                                <span class="info__label">
+                                    Способ доставки:
+                                </span>
+                                <span class="info__value" id="deliveryType">
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -34,20 +39,32 @@ const modals = {
                         <h3>Данные клиента</h3>
                         <div class="info__grid">
                             <div class="info__item">
-                                <span class="info__label">Имя:</span>
-                                <span class="info__value" id="customerName"></span>
+                                <span class="info__label">
+                                    Имя:
+                                </span>
+                                <span class="info__value" id="customerName">
+                                </span>
                             </div>
                             <div class="info__item">
-                                <span class="info__label">Телефон:</span>
-                                <span class="info__value" id="customerPhone"></span>
+                                <span class="info__label">
+                                    Телефон:
+                                </span>
+                                <span class="info__value" id="customerPhone">
+                                </span>
                             </div>
                             <div class="info__item">
-                                <span class="info__label">Адрес:</span>
-                                <span class="info__value" id="customerAddress"></span>
+                                <span class="info__label">
+                                    Адрес:
+                                </span>
+                                <span class="info__value" id="customerAddress">
+                                </span>
                             </div>
                             <div class="info__item">
-                                <span class="info__label">Email:</span>
-                                <span class="info__value" id="customerEmail"></span>
+                                <span class="info__label">
+                                    Email:
+                                </span>
+                                <span class="info__value" id="customerEmail">
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -60,7 +77,8 @@ const modals = {
                         <div class="order__total-section">
                             <div class="total__line">
                                 <span>Итого:</span>
-                                <span class="total__amount" id="orderTotalAmount"></span>
+                                <span class="total__amount" id="orderTotalAmount">
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -83,7 +101,7 @@ class OrdersManager {
     constructor() {
         this.STORAGE_KEY = 'fc_orders';
         this.orders = this.loadOrders();
-        this.currentOrderId = null; // Для отслеживания текущего открытого заказа
+        this.currentOrderId = null;
         this.init();
     }
 
@@ -191,11 +209,13 @@ class OrdersManager {
             return;
         }
 
-        container.innerHTML = orders.map(order => this.getOrderCardHTML(order, isActive)).join('');
+        container.innerHTML = orders.map(order =>
+            this.getOrderCardHTML(order, isActive)).join('');
     }
 
     handleEmptyStates(activeOrders, completedOrders) {
         const activeContainer = document.getElementById('activeOrdersList');
+        
         const completedContainer = document.getElementById('completedOrdersList');
 
         if (activeOrders.length === 0 && activeContainer) {
@@ -214,18 +234,26 @@ class OrdersManager {
         if (isActive) {
             message = 'У вас нет активных заказов';
             description = 'Сделайте заказ на странице "Собрать ланч"';
-        } else {
-            message = 'У вас нет завершенных заказов';
-            description = 'Завершенные заказы появятся здесь';
-        }
-
-        return `
+            return `
             <div class="empty__state">
                 <h3>${message}</h3>
                 <p>${description}</p>
-                ${isActive ? '<a href="./lunch.html" class="btn btn__primary">Сделать заказ</a>' : ''}
+                <a href="./lunch.html" class="btn btn__primary">
+                    Сделать заказ
+                </a>
             </div>
-        `;
+            `;
+        } else {
+            message = 'У вас нет завершенных заказов';
+            description = 'Завершенные заказы появятся здесь';
+            return `
+            <div class="empty__state">
+                <h3>${message}</h3>
+                <p>${description}</p>
+                ''
+            </div>
+            `;
+        }
     }
 
     getOrderCardHTML(order, isActive) {
@@ -248,10 +276,12 @@ class OrdersManager {
                         <h3>Заказ ${order.number}</h3>
                         <div class="order__meta">
                             <span class="meta__item">
-                                <i>📅</i> ${this.formatDate(order.createdAt)}
+                                <i>📅</i> 
+                                ${this.formatDate(order.createdAt)}
                             </span>
                             <span class="meta__item">
-                                <i>🕒</i> ${this.formatTime(order.userData.deliveryTime)}
+                                <i>🕒</i> 
+                                ${this.formatTime(order.userData.deliveryTime)}
                             </span>
                             <span class="meta__item">
                                 <i>👤</i> ${order.userData.userName}
@@ -318,23 +348,46 @@ class OrdersManager {
         const orderTotalAmount = document.getElementById('orderTotalAmount');
         const orderNotes = document.getElementById('orderNotes');
 
-        if (orderNumber) orderNumber.textContent = order.number;
+        if (orderNumber) {
+            orderNumber.textContent = order.number;
+        }
         if (orderStatus) {
             orderStatus.textContent = this.getStatusText(order.status);
             orderStatus.className = `status--${order.status}`;
         }
-        if (orderDate) orderDate.textContent = this.formatDate(order.createdAt);
-        if (deliveryTime) deliveryTime.textContent = this.formatTime(order.userData.deliveryTime);
-        if (deliveryType) deliveryType.textContent = order.userData.deliveryType === 'timed' ? 'Ко времени' : 'Как можно скорее';
+        if (orderDate) {
+            orderDate.textContent = this.formatDate(order.createdAt);
+        }
+        if (deliveryTime) {
+            
+            deliveryTime.textContent = this.formatTime(order.userData.deliveryTime);
+        }
+        if (deliveryType) {
+            if (order.userData.deliveryType === 'timed') {
+                deliveryType.textContent = 'Ко времени';
+            } else {
+                deliveryType.textContent = 'Как можно скорее';
+            }
+        }
+        if (customerName) {
+            customerName.textContent = order.userData.userName;
+        }
+        if (customerPhone) {
+            customerPhone.textContent = order.userData.userPhone;
+        }
+        if (customerAddress) {
+            customerAddress.textContent = order.userData.userAddress;
+        }
+        if (customerEmail) {
+            customerEmail.textContent = order.userData.email;
+        }
 
-        if (customerName) customerName.textContent = order.userData.userName;
-        if (customerPhone) customerPhone.textContent = order.userData.userPhone;
-        if (customerAddress) customerAddress.textContent = order.userData.userAddress;
-        if (customerEmail) customerEmail.textContent = order.userData.email;
-
-        if (orderTotalAmount) orderTotalAmount.textContent = `${this.formatPrice(order.total)}₽`;
+        if (orderTotalAmount) {
+            orderTotalAmount.textContent = `${this.formatPrice(order.total)}₽`;
+        }
 
         if (orderNotes) {
+            
             orderNotes.textContent = order.userData.userComment || 'Нет комментария';
         }
 
@@ -348,8 +401,12 @@ class OrdersManager {
         container.innerHTML = items.map(item => `
             <div class="order__item">
                 <div class="item__info">
-                    <div class="item__name">${item.title}</div>
-                    <div class="item__meta">${item.price}₽ × ${item.qty} шт.</div>
+                    <div class="item__name">
+                        ${item.title}
+                    </div>
+                    <div class="item__meta">
+                        ${item.price}₽ × ${item.qty} шт.
+                    </div>
                 </div>
                 <div class="item__total">${this.formatPrice(item.total)}₽</div>
             </div>
@@ -365,10 +422,13 @@ class OrdersManager {
                     const tab = e.target.dataset.tab;
 
                     // Обновляем активные вкладки
+                    
                     document.querySelectorAll('.tab__btn').forEach(b => b.classList.remove('tab__btn--active'));
+                    
                     document.querySelectorAll('.tab__content').forEach(c => c.classList.remove('tab__content--active'));
 
                     e.target.classList.add('tab__btn--active');
+                    
                     const contentElement = document.getElementById(`${tab}Orders`);
                     if (contentElement) {
                         contentElement.classList.add('tab__content--active');
@@ -385,12 +445,14 @@ class OrdersManager {
                 const order = this.getOrderById(orderId);
                 notifications.confirm({
                     title: 'Подтверждение получения',
+                    
                     message: `Вы уверены, что хотите отметить заказ ${order.number} как полученный?`,
                     yesText: 'Да, получен',
                     noText: 'Нет'
                 }).then(confirmed => {
                     if (confirmed) {
                         this.markAsCompleted(orderId);
+                        
                         notifications.success(`Заказ ${order.number} отмечен как полученный!`);
                     }
                 });
@@ -419,7 +481,10 @@ class OrdersManager {
         let updated = false;
 
         this.orders.forEach(order => {
-            if (order.status === 'active' && order.userData.deliveryTime && order.userData.deliveryTime !== 'Как можно скорее') {
+            if (order.status === 'active' && 
+                order.userData.deliveryTime && 
+                order.userData.deliveryTime !== 'Как можно скорее') {
+                    
                 const [hours, minutes] = order.userData.deliveryTime.split(':');
                 const deliveryTime = new Date(order.createdAt);
                 deliveryTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
@@ -452,9 +517,27 @@ function addTestOrders() {
             id: 1,
             number: 'FC-123456',
             items: [
-                { id: 'gazpacho', title: 'Гаспачо', price: 195, qty: 2, total: 390 },
-                { id: 'apple_juice', title: 'Яблочный сок', price: 90, qty: 1, total: 90 },
-                { id: 'lasagna', title: 'Лазанья', price: 385, qty: 1, total: 385 }
+                {
+                    id: 'gazpacho',
+                    title: 'Гаспачо', 
+                    price: 195, 
+                    qty: 2, 
+                    total: 390 
+                },
+                {
+                    id: 'apple_juice', 
+                    title: 'Яблочный сок', 
+                    price: 90, 
+                    qty: 1, 
+                    total: 90 
+                },
+                {
+                    id: 'lasagna', 
+                    title: 'Лазанья', 
+                    price: 385, 
+                    qty: 1, 
+                    total: 385 
+                }
             ],
             total: 865,
             status: 'active',
@@ -474,7 +557,13 @@ function addTestOrders() {
             id: 2,
             number: 'FC-654321',
             items: [
-                { id: 'lasagna', title: 'Лазанья', price: 385, qty: 1, total: 385 }
+                {
+                    id: 'lasagna', 
+                    title: 'Лазанья', 
+                    price: 385, 
+                    qty: 1, 
+                    total: 385 
+                }
             ],
             total: 385,
             status: 'completed',
@@ -501,4 +590,4 @@ function addTestOrders() {
 }
 
 // для добавления тестовых данных
-// addTestOrders();
+addTestOrders();

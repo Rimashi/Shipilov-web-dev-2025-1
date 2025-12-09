@@ -75,8 +75,12 @@ const modals = {
                     <div class="cart-modal__body">
                         <ul id="cartModalList" class="cart-list"></ul>
                         <div class="cart-modal__footer">
-                            <div class="cart-total">Итого: <strong id="cartModalTotal">0₽</strong></div>
-                            <button id="cartModalCheckout" class="fullwidth" type="button">Перейти к оплате</button>
+                            <div class="cart-total">
+                                Итого: <strong id="cartModalTotal">0₽</strong>
+                            </div>
+                            <button id="cartModalCheckout" class="fullwidth">
+                                Перейти к оплате
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -88,23 +92,6 @@ const modals = {
 // Регистрируем модальные окна
 ModalCore.register('payment', modals.payment);
 ModalCore.register('basket', modals.basket);
-
-// ==== Upload Menu =====
-fetch('https://rimashi.github.io/Shipilov-web-dev-2025-1/lab5/scripts/menu.json')
-    .then((res) => {
-        if (!res.ok) {
-            console.log("error");
-            return;
-        }
-        return res.json();
-    })
-    .then((jsonData) => {
-        let element = document.getElementById('dish_menu');
-        addMenu(jsonData, element);
-    })
-    .catch(err => {
-        console.error(err);
-    });
 
 function groupByCategory(menuList) {
     return menuList.reduce((acc, item) => {
@@ -120,18 +107,34 @@ function ucfirst(str) {
 
 function getRuType(str) {
     const types = {
-        "vegan": "Веганское",
+        "veg": "Веганское",
         "meat": "Мясное",
         "fish": "Рыбное",
         "seafood": "Морепродукты",
         "cold": "Холодные",
         "hot": "Горячие",
-    }
+        "medium": "Средние",
+        "small": "Малые",
+        "large": "Большие"
+    };
 
     return types[str] || str;
 }
 
 // ===== FILTER FUNCTIONALITY =====
+function filterDishes(section, filterType) {
+    const dishes = section.querySelectorAll('.dish__block-dish');
+
+    dishes.forEach(dish => {
+        if (filterType === 'all') {
+            dish.style.display = 'flex';
+        } else {
+            const dishType = dish.dataset.type;
+            dish.style.display = dishType === filterType ? 'flex' : 'none';
+        }
+    });
+}
+
 function initFilters() {
     // Обработчики для кнопок фильтров
     document.addEventListener('click', (e) => {
@@ -150,24 +153,23 @@ function initFilters() {
     });
 }
 
-function filterDishes(section, filterType) {
-    const dishes = section.querySelectorAll('.dish__block-dish');
-
-    dishes.forEach(dish => {
-        if (filterType === 'all') {
-            dish.style.display = 'flex';
-        } else {
-            const dishType = dish.dataset.type;
-            dish.style.display = dishType === filterType ? 'flex' : 'none';
-        }
-    });
-}
-
 function getAllTypesForCatagery(menuList) {
     const typesSet = new Set();
-    menuList.forEach(item => typesSet.add(item.type));
+    menuList.forEach(item => typesSet.add(item.kind));
     return Array.from(typesSet);
 }
+
+function getRuNameCategory(category) {
+    const typeMap = {
+        "soup": "Супы",
+        "main-course": "Горячее",
+        "salad": "Салаты",
+        "drink": "Напитки",
+        "dessert": "Десерты"
+    };
+    return typeMap[category] || category;
+}
+
 
 function addMenu(menuJson, element) {
     const menuBlock = element;
@@ -189,13 +191,19 @@ function addMenu(menuJson, element) {
         console.log(dishes);
 
         let st = `<section class="dish__block" id="${category}">
-                    <h2 class="dish__block-name">${ucfirst(dishes[0].category_ru)}</h2>
+                    <h2 class="dish__block-name">
+                    ${getRuNameCategory(category)}
+                    </h2>
                     <div class="dish__block-type">
-                        <button class="type__button type__button--selected" data-type="all">Все</button>`;
+                        <button class="type__button type__button--selected" data-type="all">
+                            Все
+                        </button>`;
 
         let allTypes = getAllTypesForCatagery(dishes);
         allTypes.forEach(type => {
-            st += `<button class="type__button" data-type="${type}">${getRuType(type)}</button>`;
+            st += `<button class="type__button" data-type="${type}">
+                ${getRuType(type)}
+            </button>`;
         });
 
         st += `     </div>
@@ -203,9 +211,9 @@ function addMenu(menuJson, element) {
 
         dishes.forEach(item => {
             st += `
-                <div class="dish__block-dish" data-id="${item.id}" data-price="${item.price}" data-type="${item.type}">
+                <div class="dish__block-dish" data-id="${item.id}" data-price="${item.price}" data-type="${item.kind}">
                     <div class="dish__image">
-                        <img src="${item.img}" alt="${ucfirst(item.name)}">
+                        <img src="${item.image}" alt="${ucfirst(item.name)}">
                     </div>
                     <div class="dish__price">
                         <p>${item.price}₽</p>
@@ -213,15 +221,22 @@ function addMenu(menuJson, element) {
                     <div class="dish__name">
                         <p>${ucfirst(item.name)}</p>
                     </div>
-                    <div class="dish__weight">${item.weight}</div>
-                    <div class="dish__add-button"><input type="button" value="Добавить"></div>
+                    <div class="dish__weight">${item.count}</div>
+                    <div class="dish__add-button">
+                        <input type="button" value="Добавить">
+                    </div>
                 </div>
             `;
         });
 
         st += `</div></section>`;
         appendList.push(st);
-        sidebarNavSt += `<li><a href="#${category}">${ucfirst(dishes[0].category_ru)}</a></li>`
+        sidebarNavSt += `
+        <li>
+            <a href="#${category}">
+                ${getRuNameCategory(category)}
+            </a>
+        </li>`;
     }
 
     sidebarNav.innerHTML = sidebarNavSt;
@@ -229,6 +244,24 @@ function addMenu(menuJson, element) {
 
     initFilters();
 }
+
+// ==== Upload Menu =====
+fetch('https://edu.std-900.ist.mospolytech.ru/labs/api/dishes')
+    .then((res) => {
+        if (!res.ok) {
+            console.log("error");
+            return;
+        }
+        return res.json();
+    })
+    .then((jsonData) => {
+        let element = document.getElementById('dish_menu');
+        addMenu(jsonData, element);
+    })
+    .catch(err => {
+        console.error(err);
+    });
+
 
 // ===== SIMPLE CART =====
 class SimpleCart {
@@ -328,10 +361,20 @@ class SimpleCart {
         if (cartList) {
             cartList.innerHTML = '';
             if (this.items.length === 0) {
-                cartList.innerHTML = '<li class="cart-empty">Корзина пуста</li>';
-                if (cartTotal) cartTotal.textContent = '0₽';
-                if (checkoutBtn) checkoutBtn.classList.add('basket__btn--disabled');
-                if (cartWrapper) cartWrapper.classList.remove('compact');
+                cartList.innerHTML = `
+                <li class="cart-empty">
+                    Корзина пуста
+                </li>`;
+
+                if (cartTotal) {
+                    cartTotal.textContent = '0₽';
+                }
+                if (checkoutBtn) {
+                    checkoutBtn.classList.add('basket__btn--disabled');
+                }
+                if (cartWrapper) {
+                    cartWrapper.classList.remove('compact');
+                }
             } else {
                 const displayItems = this.items.slice(0, 4);
                 const hiddenCount = this.items.length - 4;
@@ -340,8 +383,12 @@ class SimpleCart {
                     cartList.innerHTML += `
                         <li class="cart-item">
                             <div class="cart-item__name">${item.title}</div>
-                            <div class="cart-item__total">${item.price * item.qty}₽</div>
-                            <div class="cart-item__price">${item.price}₽ за шт.</div>
+                            <div class="cart-item__total">
+                                ${item.price * item.qty}₽
+                            </div>
+                            <div class="cart-item__price">
+                                ${item.price}₽ за шт.
+                            </div>
                             <div class="cart-item__controls">
                                 <div class="cart-controls">
                                     <button class="cart-decr" data-id="${item.id}">−</button>
@@ -357,13 +404,21 @@ class SimpleCart {
                 if (hiddenCount > 0) {
                     const hiddenElement = document.createElement('li');
                     hiddenElement.className = 'cart-hidden-items';
-                    hiddenElement.textContent = `... и еще ${hiddenCount} товар${this.getNoun(hiddenCount, '', 'а', 'ов')}`;
+                    hiddenElement.textContent = `
+                    ... и еще ${hiddenCount} 
+                    товар${this.getNoun(hiddenCount, '', 'а', 'ов')}`;
+
                     cartList.appendChild(hiddenElement);
                 }
 
                 if (cartTotal) cartTotal.textContent = this.getTotal() + '₽';
-                if (checkoutBtn) checkoutBtn.classList.remove('basket__btn--disabled');
-                if (cartWrapper) cartWrapper.classList.toggle('compact', this.items.length > 4);
+                if (checkoutBtn) {
+                    checkoutBtn.classList.remove('basket__btn--disabled');
+                }
+                if (cartWrapper) {
+                    
+                    cartWrapper.classList.toggle('compact', this.items.length > 4);
+                }
             }
         }
 
@@ -371,15 +426,26 @@ class SimpleCart {
         if (cartModalList) {
             cartModalList.innerHTML = '';
             if (this.items.length === 0) {
-                cartModalList.innerHTML = '<li class="cart-empty">Корзина пуста</li>';
-                if (cartModalTotal) cartModalTotal.textContent = '0₽';
-                if (cartModalCheckout) cartModalCheckout.classList.add('basket__btn--disabled');
+                cartModalList.innerHTML = `
+                <li class="cart-empty">
+                    Корзина пуста
+                </li>`;
+                if (cartModalTotal) {
+                    cartModalTotal.textContent = '0₽';
+                }
+                if (cartModalCheckout) {
+                    cartModalCheckout.classList.add('basket__btn--disabled');
+                }
             } else {
                 this.items.forEach(item => {
                     cartModalList.innerHTML += `
                         <li class="cart-item cart-item-modal">
-                            <div class="cart-item__name">${item.title}</div>
-                            <div class="cart-item__price">${item.price}₽ за шт.</div>
+                            <div class="cart-item__name">
+                                ${item.title}
+                            </div>
+                            <div class="cart-item__price">
+                                ${item.price}₽ за шт.
+                            </div>
                             <div class="cart-item__controls">
                                 <div class="cart-controls">
                                     <button class="cart-decr" data-id="${item.id}">−</button>
@@ -388,12 +454,18 @@ class SimpleCart {
                                     <button class="cart-remove" data-id="${item.id}">✕</button>
                                 </div>
                             </div>
-                            <div class="cart-item__total">${item.price * item.qty}₽</div>
+                            <div class="cart-item__total">
+                                ${item.price * item.qty}₽
+                            </div>
                         </li>
                     `;
                 });
-                if (cartModalTotal) cartModalTotal.textContent = this.getTotal() + '₽';
-                if (cartModalCheckout) cartModalCheckout.classList.remove('basket__btn--disabled');
+                if (cartModalTotal) {
+                    cartModalTotal.textContent = this.getTotal() + '₽';
+                }
+                if (cartModalCheckout) {
+                    cartModalCheckout.classList.remove('basket__btn--disabled');
+                }
             }
         }
     }
@@ -407,7 +479,10 @@ class SimpleCart {
             const totalCount = this.getTotalCount();
             const totalPrice = this.getTotal();
 
-            floatingCartCount.textContent = `${totalCount} ${this.getNoun(totalCount, 'товар', 'товара', 'товаров')}`;
+            floatingCartCount.textContent = `
+            ${totalCount} 
+            ${this.getNoun(totalCount, 'товар', 'товара', 'товаров')}`;
+
             floatingCartTotal.textContent = `${totalPrice}₽`;
 
             if (totalCount === 0) {
@@ -512,27 +587,43 @@ class SimpleCart {
     getMissingCategories() {
         const missing = [];
 
-        if (!this.items.some(item => item.category === 'drinks')) {
+        if (!this.items.some(item => item.category === 'drink')) {
             missing.push({
-                id: 'drinks',
+                id: 'drink',
                 name: 'напитки',
-                section: document.getElementById('drinks')
+                section: document.getElementById('drink')
             });
         }
 
-        if (!this.items.some(item => item.category === 'hots')) {
+        if (!this.items.some(item => item.category === 'main-course')) {
             missing.push({
-                id: 'hots',
+                id: 'main-course',
                 name: 'горячие блюда',
-                section: document.getElementById('hots')
+                section: document.getElementById('main-course')
             });
         }
 
-        if (!this.items.some(item => item.category === 'soups')) {
+        if (!this.items.some(item => item.category === 'soup')) {
             missing.push({
-                id: 'soups',
+                id: 'soup',
                 name: 'супы',
-                section: document.getElementById('soups')
+                section: document.getElementById('soup')
+            });
+        }
+
+        if (!this.items.some(item => item.category === 'salad')) {
+            missing.push({
+                id: 'salad',
+                name: 'салаты',
+                section: document.getElementById('salad')
+            });
+        }
+
+        if (!this.items.some(item => item.category === 'dessert')) {
+            missing.push({
+                id: 'dessert',
+                name: 'десерты',
+                section: document.getElementById('dessert')
             });
         }
 
@@ -541,7 +632,10 @@ class SimpleCart {
 
     checkAndProceed(isBasket) {
         if (this.isEmpty()) {
-            notifications.warning('Корзина пуста', 'Выберите хотя бы один товар для оформления заказа');
+            notifications.warning(
+                'Корзина пуста',
+                'Выберите хотя бы один товар для оформления заказа'
+            );
             return;
         }
 
@@ -552,8 +646,11 @@ class SimpleCart {
             ModalCore.open('payment');
         } else {
             // Формируем сообщение о недостающих категориях
+
+            
             const categoryNames = missingCategories.map(cat => cat.name).join(', ');
-            const message = `Вы не выбрали: ${categoryNames}. Хотите перейти к оплате?`;
+            const message = `
+            Вы не выбрали: ${categoryNames}. Хотите перейти к оплате?`;
 
             notifications.confirm({
                 title: 'Не все категории выбраны',
@@ -564,6 +661,11 @@ class SimpleCart {
                 if (proceed) {
                     ModalCore.close('basket');
                     ModalCore.open('payment');
+
+                    // Принудительно инициализируем модалку оплаты
+                    if (window.paymentModal) {
+                        window.paymentModal.initializeModal();
+                    }
                 } else {
                     // Закрываем модалку корзины если она открыта
                     if (isBasket) {
@@ -604,9 +706,15 @@ class SimpleCart {
                 notifications.success('Товар добавлен в корзину!');
             }
             // Контролы корзины
-            if (e.target.matches('.cart-incr')) this.increaseQty(e.target.dataset.id);
-            if (e.target.matches('.cart-decr')) this.decreaseQty(e.target.dataset.id);
-            if (e.target.matches('.cart-remove')) this.removeItem(e.target.dataset.id);
+            if (e.target.matches('.cart-incr')) {
+                this.increaseQty(e.target.dataset.id);
+            }
+            if (e.target.matches('.cart-decr')) {
+                this.decreaseQty(e.target.dataset.id);
+            }
+            if (e.target.matches('.cart-remove')) {
+                this.removeItem(e.target.dataset.id);
+            }
         });
 
         // Checkout (сайдбар)
@@ -649,11 +757,13 @@ class PaymentModal {
                 e.target.id === 'checkoutBtn' ||
                 e.target.id === 'cartModalCheckout') {
 
+
+                this.initializeModal();
                 // Инициализируем модалку при первом открытии
-                if (!this.isInitialized) {
-                    this.initializeModal();
-                    this.isInitialized = true;
-                }
+                // if (!this.isInitialized) {
+                //     this.initializeModal();
+                //     this.isInitialized = true;
+                // }
             }
         });
     }
@@ -710,8 +820,10 @@ class PaymentModal {
         input.addEventListener('input', handler);
         input.addEventListener('paste', (e) => {
             e.preventDefault();
+            
             const pastedText = (e.clipboardData || window.clipboardData).getData('text');
             const numbers = pastedText.replace(/\D/g, '');
+            
             input.value = '+7 (' + numbers.substring(1, 4) + ') ' + numbers.substring(4, 7) + '-' + numbers.substring(7, 9) + '-' + numbers.substring(9, 11);
         });
     }
@@ -761,19 +873,30 @@ class PaymentModal {
             resetBtn.addEventListener('click', () => {
                 if (confirm('Вы уверены, что хотите сбросить все данные формы?')) {
                     form.reset();
+                    
                     const timeInputContainer = document.getElementById('timeInputContainer');
-                    if (timeInputContainer) timeInputContainer.classList.add('hidden');
+                    if (timeInputContainer) {
+                        timeInputContainer.classList.add('hidden');
+                    }
 
+                    
                     const addressTextarea = document.getElementById('userAddress');
+                    
                     const commentTextarea = document.getElementById('userComment');
                     if (addressTextarea) addressTextarea.style.height = 'auto';
                     if (commentTextarea) commentTextarea.style.height = 'auto';
 
                     // Сбрасываем валидацию времени
+                    
                     const deliveryTime = document.getElementById('deliveryTime');
+                    
                     const timeValidationError = document.getElementById('timeValidationError');
-                    if (deliveryTime) deliveryTime.classList.remove('invalid');
-                    if (timeValidationError) timeValidationError.classList.add('hidden');
+                    if (deliveryTime) {
+                        deliveryTime.classList.remove('invalid');
+                    }
+                    if (timeValidationError) {
+                        timeValidationError.classList.add('hidden');
+                    }
 
                     const userName = document.getElementById('userName');
                     if (userName) userName.focus();
@@ -786,7 +909,9 @@ class PaymentModal {
         const form = document.getElementById('deliveryForm');
         if (!form) return;
 
-        // находим кнопку отправки (вне формы она задана через form="deliveryForm")
+        // находим кнопку отправки 
+        // (вне формы она задана через form="deliveryForm")
+        
         const submitBtn = document.querySelector('button[form="deliveryForm"][type="submit"]');
 
         form.addEventListener('submit', async (e) => {
@@ -795,6 +920,13 @@ class PaymentModal {
             // Валидация телефона
             const phoneInput = document.getElementById('userPhone');
             const phoneValue = phoneInput ? phoneInput.value.replace(/\D/g, '') : '';
+            // let phoneValue = "";
+            // if (phoneInput) {
+            //     phoneValue = phoneInput.value.replace(/\D/g, '');
+            // } else {
+            //     phoneValue = '';
+            // }
+
             if (phoneValue.length !== 11) {
                 alert('Пожалуйста, введите корректный номер телефона');
                 if (phoneInput) phoneInput.focus();
@@ -856,6 +988,7 @@ class PaymentModal {
                 ModalCore.close();
 
                 if (window.createOrderFromCart) {
+                    
                     window.createOrderFromCart(deliveryData.cartItems, deliveryData);
                 }
             } catch (err) {
@@ -865,6 +998,7 @@ class PaymentModal {
                 // Восстанавливаем кнопку (если форма по-прежнему присутствует)
                 if (submitBtn) {
                     submitBtn.disabled = false;
+                    
                     submitBtn.textContent = submitBtn.dataset.prevText || 'Оформить заказ';
                 }
             }
@@ -886,6 +1020,7 @@ function initializeOrderIntegration() {
                 qty: item.qty,
                 total: item.price * item.qty
             })),
+            
             total: cartItems.reduce((sum, item) => sum + (item.price * item.qty), 0),
             status: 'active',
             createdAt: new Date().toISOString(),

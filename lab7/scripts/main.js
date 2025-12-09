@@ -53,7 +53,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Закрытие меню при изменении размера окна (на случай перехода с мобильной на десктопную версию)
+    // Закрытие меню при изменении размера окна 
+    // (на случай перехода с мобильной на десктопную версию)
     window.addEventListener('resize', function () {
         if (window.innerWidth > 767 && menu.classList.contains('active')) {
             toggleMenu();
@@ -65,9 +66,9 @@ document.addEventListener('DOMContentLoaded', function () {
 (function (global) {
     class ModalManager {
         constructor(container = document.body) {
-            this.templates = {};        // ключ -> html шаблон (string)
+            this.templates = {}; // ключ -> html шаблон (string)
             this.container = container;
-            this.active = null;         // текущая открытая модалка (DOM element)
+            this.active = null; // текущая открытая модалка (DOM element)
             document.addEventListener('click', this._click.bind(this));
             document.addEventListener('keydown', this._key.bind(this));
         }
@@ -94,13 +95,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const backdrop = e.target.closest('.modal__background');
             // клик по реальному фон-блоку (не по внутреннему содержимому)
-            if (backdrop && e.target === backdrop && backdrop.classList.contains('active')) {
+            if (backdrop &&
+                e.target === backdrop &&
+                backdrop.classList.contains('active')) {
                 this.close();
             }
         }
 
         // Esc -> закрыть
-        _key(e) { if (e.key === 'Escape') this.close(); }
+        _key(e) {
+            if (e.key === 'Escape') this.close();
+        }
 
         // Вставляем шаблон в DOM, если его ещё нет
         _ensureInDOM(key) {
@@ -115,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // помечаем модалку датасетом, чтобы находить её позже
             el.dataset.modal = key;
 
-            // важно: в шаблонах не использовать фиксированные ID, чтобы не дублировать
+            // в шаблонах не использовать фиксированные ID, чтобы не дублировать
             this.container.appendChild(el);
         }
 
@@ -130,10 +135,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const el = this.container.querySelector(`[data-modal="${key}"]`);
             if (!el) return;
             el.classList.add('active');
-            document.body.classList.add('modal-open'); // блокируем скролл — определён в CSS
+            document.body.classList.add('modal-open');
             this.active = el;
 
-            // Установим фокус на первый фокусируемый элемент (для удобства/доступности)
+            // фокус на первый фокусируемый элемент
+            
             const focusEl = el.querySelector('button, a, input, textarea, select, [tabindex]:not([tabindex="-1"])');
             if (focusEl) focusEl.focus();
         }
@@ -162,7 +168,13 @@ class ThemeSwitcher {
     _applySaved() {
         const current = localStorage.getItem(this.themeKey) || 'light';
         if (current === 'dark') document.body.classList.add('dark-theme');
-        if (this.el) this.el.textContent = document.body.classList.contains('dark-theme') ? '☀️' : '🌙';
+        if (this.el) {
+            if (document.body.classList.contains('dark-theme')) {
+                this.el.textContent = '☀️';
+            } else {
+                this.el.textContent = '🌙';
+            }
+        }
     }
 
     _bind() {
