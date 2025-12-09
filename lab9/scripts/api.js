@@ -2,6 +2,7 @@ class FoodConstructAPI {
     constructor() {
         this.baseUrl = API_BASE_URL;
         this.key = API_KEY;
+        this.localServerUrl = 'http://localhost:8000';
     }
 
     // Получить данные всех блюд
@@ -49,17 +50,16 @@ class FoodConstructAPI {
     // Создать новый заказ
     async createOrder(orderData) {
         try {
-            // Добавляем api_key в тело запроса
             const dataWithKey = {
                 ...orderData,
                 api_key: this.key
             };
 
             console.log('Sending order data:', dataWithKey);
-            console.log('URL:', `${this.baseUrl}/orders`);
+            console.log('URL:', `${this.localServerUrl}/labs/api/orders`);
 
             const response = await fetch(
-                `http://localhost:8000/labs/api/orders`,
+                `${this.localServerUrl}/labs/api/orders`,
                 {
                     method: 'POST',
                     headers: {
@@ -95,7 +95,7 @@ class FoodConstructAPI {
     async getOrders() {
         try {
             const response = await fetch(
-                `http://localhost:8000/labs/api/orders`,
+                `${this.localServerUrl}/labs/api/orders`,
                 {
                     headers: {
                         'Accept': 'application/json'
@@ -116,7 +116,7 @@ class FoodConstructAPI {
     async getOrderById(id) {
         try {
             const response = await fetch(
-                `http://localhost:8000/labs/api/orders/${id}`,
+                `${this.localServerUrl}/labs/api/orders/${id}`,
                 {
                     headers: {
                         'Accept': 'application/json'
@@ -136,7 +136,6 @@ class FoodConstructAPI {
     // Изменить заказ
     async updateOrder(id, orderData) {
         try {
-            // Добавляем api_key в тело запроса
             const dataWithKey = {
                 ...orderData,
                 api_key: this.key
@@ -145,7 +144,7 @@ class FoodConstructAPI {
             console.log('Updating order:', id, dataWithKey);
 
             const response = await fetch(
-                `http://localhost:8000/labs/api/orders/${id}`,
+                `${this.localServerUrl}/labs/api/orders/${id}`,
                 {
                     method: 'PUT',
                     headers: {
@@ -177,14 +176,13 @@ class FoodConstructAPI {
         }
     }
 
-
     // Удалить заказ
     async deleteOrder(id) {
         try {
             console.log('Deleting order:', id);
 
             const response = await fetch(
-                `http://localhost:8000/labs/api/orders/${id}`,
+                `${this.localServerUrl}/labs/api/orders/${id}`,
                 {
                     method: 'DELETE',
                     headers: {

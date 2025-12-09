@@ -255,7 +255,7 @@
 }
 
 .info__value {
-    color: var(--text-color);
+    /* color: var(--text-color); */
     text-align: right;
 }
 
@@ -491,18 +491,18 @@
 
 .info__item {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 4px;
 }
 
 .info__label {
     font-weight: 600;
-    color: #666;
+    /* color: #666; */
     font-size: 14px;
 }
 
 .info__value {
-    color: #333;
+    /* color: #333; */
     font-size: 16px;
 }
 
@@ -518,7 +518,6 @@
     justify-content: space-between;
     align-items: center;
     padding: 12px;
-    background-color: #f8f9fa;
     border-radius: 6px;
 }
 
@@ -539,7 +538,7 @@
 
 .item__total {
     font-weight: 600;
-    color: #333;
+    /* color: #333; */
 }
 
 .total__line {
@@ -547,7 +546,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 16px;
-    background-color: #f8f9fa;
+    /* background-color: #f8f9fa; */
     border-radius: 6px;
     margin-top: 16px;
     font-size: 18px;
@@ -556,25 +555,37 @@
 
 .order__notes {
     padding: 12px;
-    background-color: #f8f9fa;
+    /* background-color: #f8f9fa; */
     border-radius: 6px;
     margin-top: 8px;
     line-height: 1.5;
 }
 
-/* Статусы */
+/* Стили для статусов */
 .status--active {
+    background: rgba(40, 167, 69, 0.1);
     color: #28a745;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
     font-weight: 600;
 }
 
 .status--completed {
+    background: rgba(108, 117, 125, 0.1);
     color: #6c757d;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
     font-weight: 600;
 }
 
 .status--cancelled {
+    background: rgba(220, 53, 69, 0.1);
     color: #dc3545;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
     font-weight: 600;
 }
 
@@ -596,8 +607,6 @@
     color: #666;
     margin-bottom: 20px;
 }
-
-/* ===== СТИЛИ ДЛЯ ФОРМЫ РЕДАКТИРОВАНИЯ ===== */
 
 /* Форма редактирования */
 #editOrderForm {
@@ -776,9 +785,6 @@ input[type="time"] {
     }
 }
 
-/* ===== ОБНОВЛЁННЫЕ СТИЛИ ДЛЯ КАРТОЧКИ ЗАКАЗА ===== */
-
-/* Обновляем отображение карточки заказа для API */
 .order__card-body {
     display: grid;
     grid-template-columns: 2fr 1fr;

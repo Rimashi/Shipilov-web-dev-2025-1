@@ -821,9 +821,11 @@ class PaymentModal {
         input.addEventListener('paste', (e) => {
             e.preventDefault();
             
+            // eslint-disable-next-line max-len
             const pastedText = (e.clipboardData || window.clipboardData).getData('text');
             const numbers = pastedText.replace(/\D/g, '');
             
+            // eslint-disable-next-line max-len
             input.value = '+7 (' + numbers.substring(1, 4) + ') ' + numbers.substring(4, 7) + '-' + numbers.substring(7, 9) + '-' + numbers.substring(9, 11);
         });
     }
@@ -839,12 +841,16 @@ class PaymentModal {
     }
 
     setupConditionalTimeField() {
+        // eslint-disable-next-line max-len
         const deliveryRadios = document.querySelectorAll('input[name="deliveryType"]');
+        // eslint-disable-next-line max-len
         const timeInputContainer = document.getElementById('timeInputContainer');
 
         const toggleTimeField = () => {
+            // eslint-disable-next-line max-len
             const timedDeliverySelected = document.querySelector('input[name="deliveryType"]:checked').value === 'timed';
             if (timeInputContainer) {
+                // eslint-disable-next-line max-len
                 timeInputContainer.classList.toggle('hidden', !timedDeliverySelected);
             }
         };
@@ -874,6 +880,7 @@ class PaymentModal {
                 if (confirm('Вы уверены, что хотите сбросить все данные формы?')) {
                     form.reset();
                     
+                    // eslint-disable-next-line max-len
                     const timeInputContainer = document.getElementById('timeInputContainer');
                     if (timeInputContainer) {
                         timeInputContainer.classList.add('hidden');
@@ -888,8 +895,10 @@ class PaymentModal {
 
                     // Сбрасываем валидацию времени
                     
+                    // eslint-disable-next-line max-len
                     const deliveryTime = document.getElementById('deliveryTime');
                     
+                    // eslint-disable-next-line max-len
                     const timeValidationError = document.getElementById('timeValidationError');
                     if (deliveryTime) {
                         deliveryTime.classList.remove('invalid');
@@ -912,6 +921,7 @@ class PaymentModal {
         // находим кнопку отправки 
         // (вне формы она задана через form="deliveryForm")
         
+        // eslint-disable-next-line max-len
         const submitBtn = document.querySelector('button[form="deliveryForm"][type="submit"]');
 
         form.addEventListener('submit', async (e) => {
@@ -919,13 +929,14 @@ class PaymentModal {
 
             // Валидация телефона
             const phoneInput = document.getElementById('userPhone');
-            const phoneValue = phoneInput ? phoneInput.value.replace(/\D/g, '') : '';
-            // let phoneValue = "";
-            // if (phoneInput) {
-            //     phoneValue = phoneInput.value.replace(/\D/g, '');
-            // } else {
-            //     phoneValue = '';
-            // }
+            // eslint-disable-next-line max-len
+            // const phoneValue = phoneInput ? phoneInput.value.replace(/\D/g, '') : '';
+            let phoneValue = "";
+            if (phoneInput) {
+                phoneValue = phoneInput.value.replace(/\D/g, '');
+            } else {
+                phoneValue = '';
+            }
 
             if (phoneValue.length !== 11) {
                 alert('Пожалуйста, введите корректный номер телефона');

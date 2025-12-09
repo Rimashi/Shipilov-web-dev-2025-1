@@ -8,7 +8,6 @@ class OrderPlaceManager {
         this.bindEvents();
         this.setupFormValidation();
 
-        // Слушаем обновления корзины
         window.addEventListener('basket-updated', async () => {
             await this.renderOrderItems();
         });
@@ -32,7 +31,6 @@ class OrderPlaceManager {
             return;
         }
 
-        // Получаем детали товаров
         const itemsWithDetails = await basketStorage.getBasketWithDetails();
         let total = 0;
 
@@ -131,7 +129,6 @@ class OrderPlaceManager {
     bindEvents() {
         // Управление количеством на странице оформления заказа
         document.addEventListener('click', async (e) => {
-            // Увеличение количества
             if (e.target.classList.contains('cart-incr')) {
                 const id = e.target.dataset.id;
                 const basket = basketStorage.getBasket();
@@ -141,7 +138,6 @@ class OrderPlaceManager {
                 }
             }
 
-            // Уменьшение количества
             if (e.target.classList.contains('cart-decr')) {
                 const id = e.target.dataset.id;
                 const basket = basketStorage.getBasket();
@@ -151,7 +147,6 @@ class OrderPlaceManager {
                 }
             }
 
-            // Удаление товара
             if (e.target.classList.contains('cart-remove')) {
                 const id = e.target.dataset.id;
                 basketStorage.removeItem(id);

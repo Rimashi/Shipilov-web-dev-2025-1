@@ -26,9 +26,7 @@ const modals = {
                                 </span>
                             </div>
                             <div class="info__item">
-                                <span class="info__label">
-                                    Способ доставки:
-                                </span>
+                                <span class="info__label">Способ доставки:</span>
                                 <span class="info__value" id="deliveryType">
                                 </span>
                             </div>
@@ -39,30 +37,22 @@ const modals = {
                         <h3>Данные клиента</h3>
                         <div class="info__grid">
                             <div class="info__item">
-                                <span class="info__label">
-                                    Имя:
-                                </span>
+                                <span class="info__label">Имя:</span>
                                 <span class="info__value" id="customerName">
                                 </span>
                             </div>
                             <div class="info__item">
-                                <span class="info__label">
-                                    Телефон:
-                                </span>
+                                <span class="info__label">Телефон:</span>
                                 <span class="info__value" id="customerPhone">
                                 </span>
                             </div>
                             <div class="info__item">
-                                <span class="info__label">
-                                    Адрес:
-                                </span>
+                                <span class="info__label">Адрес:</span>
                                 <span class="info__value" id="customerAddress">
                                 </span>
                             </div>
                             <div class="info__item">
-                                <span class="info__label">
-                                    Email:
-                                </span>
+                                <span class="info__label">Email:</span>
                                 <span class="info__value" id="customerEmail">
                                 </span>
                             </div>
@@ -122,7 +112,7 @@ const modals = {
                         <textarea id="editDeliveryAddress" name="delivery_address" placeholder="Введите адрес доставки..." required></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="editDeliveryType">Время доставки:</label>
+                        <label for="editDeliveryType">Тип доставки:</label>
                         <div class="radio-group">
                             <label class="radio-label">
                                 <input type="radio" name="editDeliveryType" value="now" checked>
@@ -134,21 +124,13 @@ const modals = {
                             </label>
                         </div>
                         <div id="editDeliveryTimeContainer" class="hidden">
-                            <label for="editDeliveryTime">Время доставки:</label>
+                            <label for="editDeliveryTime">Время доставки (HH:MM):</label>
                             <input type="time" id="editDeliveryTime" name="delivery_time" min="07:00" max="23:00" step="300">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="editComment">Комментарий к заказу:</label>
                         <textarea id="editComment" name="comment" placeholder="Ваши пожелания к заказу..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="editStatus">Статус заказа:</label>
-                        <select id="editStatus" name="status" required>
-                            <option value="active">Активный</option>
-                            <option value="completed">Завершен</option>
-                            <option value="cancelled">Отменен</option>
-                        </select>
                     </div>
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" data-modal-close>Отмена</button>
@@ -169,7 +151,7 @@ class OrdersAPIManager {
     constructor() {
         this.orders = [];
         this.currentOrderId = null;
-        this.dishesCache = new Map(); // Кэш для блюд
+        this.dishesCache = new Map();
         this.init();
     }
 
@@ -192,25 +174,39 @@ class OrdersAPIManager {
     }
 
     async loadDishesForOrder(order) {
-        // Загружаем информацию о блюдах для заказа
         const dishesWithDetails = [];
-        
-        for (const dishId of order.dish_ids) {
-            if (this.dishesCache.has(dishId)) {
-                dishesWithDetails.push(this.dishesCache.get(dishId));
+        const dishCounts = {};
+
+        // Считаем количество каждого блюда
+        order.dish_ids.forEach(dishId => {
+            dishCounts[dishId] = (dishCounts[dishId] || 0) + 1;
+        });
+
+        for (const [dishId, count] of Object.entries(dishCounts)) {
+            if (this.dishesCache.has(parseInt(dishId))) {
+                const dish = this.dishesCache.get(parseInt(dishId));
+                dishesWithDetails.push({
+                    ...dish,
+                    quantity: count,
+                    totalPrice: dish.price * count
+                });
             } else {
                 try {
-                    const dish = await basketAPI.getDishById(dishId);
+                    const dish = await basketAPI.getDishById(parseInt(dishId));
                     if (dish) {
-                        this.dishesCache.set(dishId, dish);
-                        dishesWithDetails.push(dish);
+                        this.dishesCache.set(parseInt(dishId), dish);
+                        dishesWithDetails.push({
+                            ...dish,
+                            quantity: count,
+                            totalPrice: dish.price * count
+                        });
                     }
                 } catch (error) {
                     console.error(`Failed to load dish ${dishId}:`, error);
                 }
             }
         }
-        
+
         return dishesWithDetails;
     }
 
@@ -219,49 +215,51 @@ class OrdersAPIManager {
         const totalOrdersCount = document.getElementById('totalOrdersCount');
 
         if (activeOrdersCount) {
-            const activeOrders = this.orders.filter(order => order.status === 'active');
-            activeOrdersCount.textContent = activeOrders.length;
+            activeOrdersCount.textContent = this.orders.length;
         }
-        
+
         if (totalOrdersCount) {
             totalOrdersCount.textContent = this.orders.length;
         }
     }
 
     formatDate(dateString) {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('ru-RU', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
+        try {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ru-RU', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        } catch {
+            return 'Неизвестно';
+        }
     }
 
-    formatTime(timeString) {
-        if (!timeString || timeString === 'now') {
+    formatTime(deliveryType, deliveryTime) {
+        if (deliveryType === 'now' || !deliveryTime) {
             return 'Как можно скорее';
         }
-        return timeString;
+        return deliveryTime;
+    }
+
+    formatDeliveryType(type) {
+        const types = {
+            'now': 'Как можно скорее',
+            'by_time': 'Ко времени'
+        };
+        return types[type] || type;
     }
 
     formatPrice(price) {
         return new Intl.NumberFormat('ru-RU').format(price);
     }
 
-    getStatusText(status) {
-        const statusMap = {
-            'active': 'Активный',
-            'completed': 'Завершен',
-            'cancelled': 'Отменен'
-        };
-        return statusMap[status] || status;
-    }
-
     async calculateOrderTotal(order) {
         const dishes = await this.loadDishesForOrder(order);
-        return dishes.reduce((total, dish) => total + dish.price, 0);
+        return dishes.reduce((total, dish) => total + dish.totalPrice, 0);
     }
 
     async renderOrders() {
@@ -270,15 +268,10 @@ class OrdersAPIManager {
 
         if (!activeOrdersList || !completedOrdersList) return;
 
-        // Фильтруем заказы по статусу
-        const activeOrders = this.orders.filter(order => order.status === 'active');
-        const completedOrders = this.orders.filter(order => order.status === 'completed' || order.status === 'cancelled');
+        await this.renderOrderList(activeOrdersList, this.orders, true);
 
-        // Рендерим активные заказы
-        await this.renderOrderList(activeOrdersList, activeOrders, true);
-        
-        // Рендерим завершенные заказы
-        await this.renderOrderList(completedOrdersList, completedOrders, false);
+        // Завершенных заказов нет
+        await this.renderOrderList(completedOrdersList, [], false);
 
         this.updateStats();
     }
@@ -290,7 +283,7 @@ class OrdersAPIManager {
         }
 
         container.innerHTML = '';
-        
+
         for (const order of orders) {
             const orderElement = await this.createOrderCard(order, isActive);
             container.appendChild(orderElement);
@@ -321,15 +314,15 @@ class OrdersAPIManager {
     async createOrderCard(order, isActive) {
         const total = await this.calculateOrderTotal(order);
         const dishes = await this.loadDishesForOrder(order);
-        
+
         const div = document.createElement('div');
         div.className = `order__card ${!isActive ? 'completed' : ''}`;
-        div.dataset.orderId = order.id;
-        
-        const itemsPreview = dishes.slice(0, 2).map(dish => 
-            `${dish.name} (1 шт.)`
+        div.dataset.orderId = order.order_id || order.id;
+
+        const itemsPreview = dishes.slice(0, 2).map(dish =>
+            `${dish.name} (${dish.quantity} шт.)`
         ).join(', ');
-        
+
         const hiddenItemsCount = dishes.length - 2;
         let itemsText = itemsPreview;
         if (hiddenItemsCount > 0) {
@@ -339,21 +332,21 @@ class OrdersAPIManager {
         div.innerHTML = `
             <div class="order__card-header">
                 <div class="order__card-info">
-                    <h3>Заказ #${order.id}</h3>
+                    <h3>Заказ #${order.order_id || order.id}</h3>
                     <div class="order__meta">
                         <span class="meta__item">
                             <i>📅</i> ${this.formatDate(order.created_at || new Date().toISOString())}
                         </span>
                         <span class="meta__item">
-                            <i>🕒</i> ${this.formatTime(order.delivery_time)}
+                            <i>🕒</i> ${this.formatTime(order.delivery_type, order.delivery_time)}
                         </span>
                         <span class="meta__item">
                             <i>👤</i> ${order.full_name}
                         </span>
                     </div>
                 </div>
-                <div class="order__status status--${order.status}">
-                    ${this.getStatusText(order.status)}
+                <div class="order__status status--active">
+                    Активный
                 </div>
             </div>
             <div class="order__card-body">
@@ -364,21 +357,21 @@ class OrdersAPIManager {
                     ${this.formatPrice(total)}₽
                 </div>
                 <div class="order__actions">
-                    <button class="btn__small btn__info view__order-btn" data-order-id="${order.id}">
+                    <button class="btn__small btn__info view__order-btn" data-order-id="${order.order_id || order.id}">
                         Просмотреть
                     </button>
                     ${isActive ? `
-                        <button class="btn__small btn__primary edit__order-btn" data-order-id="${order.id}">
+                        <button class="btn__small btn__primary edit__order-btn" data-order-id="${order.order_id || order.id}">
                             Редактировать
                         </button>
-                        <button class="btn__small btn__danger delete__order-btn" data-order-id="${order.id}">
+                        <button class="btn__small btn__danger delete__order-btn" data-order-id="${order.order_id || order.id}">
                             Удалить
                         </button>
                     ` : ''}
                 </div>
             </div>
         `;
-        
+
         return div;
     }
 
@@ -394,11 +387,11 @@ class OrdersAPIManager {
             ModalCore.open('order_info');
 
             // Заполняем данные в модальном окне
-            document.getElementById('orderNumber').textContent = `#${order.id}`;
-            document.getElementById('orderStatus').textContent = this.getStatusText(order.status);
+            document.getElementById('orderNumber').textContent = `#${order.order_id || order.id}`;
+            document.getElementById('orderStatus').textContent = 'Активный';
             document.getElementById('orderDate').textContent = this.formatDate(order.created_at || new Date().toISOString());
-            document.getElementById('deliveryTime').textContent = this.formatTime(order.delivery_time);
-            document.getElementById('deliveryType').textContent = order.delivery_type === 'by_time' ? 'Ко времени' : 'Как можно скорее';
+            document.getElementById('deliveryTime').textContent = this.formatTime(order.delivery_type, order.delivery_time);
+            document.getElementById('deliveryType').textContent = this.formatDeliveryType(order.delivery_type);
             document.getElementById('customerName').textContent = order.full_name;
             document.getElementById('customerPhone').textContent = order.phone;
             document.getElementById('customerAddress').textContent = order.delivery_address;
@@ -409,24 +402,24 @@ class OrdersAPIManager {
             const dishes = await this.loadDishesForOrder(order);
             const container = document.getElementById('orderItemsList');
             const totalAmount = document.getElementById('orderTotalAmount');
-            
+
             if (container) {
                 container.innerHTML = dishes.map(dish => `
                     <div class="order__item">
                         <div class="item__info">
                             <div class="item__name">${dish.name}</div>
-                            <div class="item__meta">${dish.price}₽ × 1 шт.</div>
+                            <div class="item__meta">${dish.price}₽ × ${dish.quantity} шт.</div>
                         </div>
-                        <div class="item__total">${dish.price}₽</div>
+                        <div class="item__total">${this.formatPrice(dish.totalPrice)}₽</div>
                     </div>
                 `).join('');
             }
-            
+
             if (totalAmount) {
-                const total = dishes.reduce((sum, dish) => sum + dish.price, 0);
+                const total = dishes.reduce((sum, dish) => sum + dish.totalPrice, 0);
                 totalAmount.textContent = `${this.formatPrice(total)}₽`;
             }
-            
+
         } catch (error) {
             console.error('Failed to load order details:', error);
             notifications.error('Не удалось загрузить детали заказа');
@@ -445,13 +438,13 @@ class OrdersAPIManager {
             ModalCore.open('edit_order');
 
             // Заполняем форму данными заказа
-            document.getElementById('editOrderNumber').textContent = `#${order.id}`;
+            document.getElementById('editOrderNumber').textContent = `#${order.order_id || order.id}`;
             document.getElementById('editFullName').value = order.full_name;
             document.getElementById('editEmail').value = order.email;
             document.getElementById('editSubscribe').checked = order.subscribe;
             document.getElementById('editPhone').value = order.phone;
             document.getElementById('editDeliveryAddress').value = order.delivery_address;
-            
+
             // Тип доставки
             if (order.delivery_type === 'now') {
                 document.querySelector('input[name="editDeliveryType"][value="now"]').checked = true;
@@ -459,11 +452,12 @@ class OrdersAPIManager {
             } else {
                 document.querySelector('input[name="editDeliveryType"][value="by_time"]').checked = true;
                 document.getElementById('editDeliveryTimeContainer').classList.remove('hidden');
-                document.getElementById('editDeliveryTime').value = order.delivery_time;
+                if (order.delivery_time) {
+                    document.getElementById('editDeliveryTime').value = order.delivery_time;
+                }
             }
-            
+
             document.getElementById('editComment').value = order.comment || '';
-            document.getElementById('editStatus').value = order.status;
 
             // Обработчик изменения типа доставки
             document.querySelectorAll('input[name="editDeliveryType"]').forEach(radio => {
@@ -490,8 +484,7 @@ class OrdersAPIManager {
             delivery_address: formData.get('delivery_address'),
             delivery_type: formData.get('editDeliveryType'),
             comment: formData.get('comment') || '',
-            subscribe: formData.get('subscribe') === 'true',
-            status: formData.get('status')
+            subscribe: formData.get('subscribe') === 'true'
         };
 
         if (orderData.delivery_type === 'by_time') {
@@ -536,13 +529,13 @@ class OrdersAPIManager {
         document.addEventListener('click', (e) => {
             if (e.target.classList.contains('tab__btn')) {
                 const tab = e.target.dataset.tab;
-                
+
                 // Обновляем активные вкладки
-                document.querySelectorAll('.tab__btn').forEach(b => 
+                document.querySelectorAll('.tab__btn').forEach(b =>
                     b.classList.remove('tab__btn--active'));
-                document.querySelectorAll('.tab__content').forEach(c => 
+                document.querySelectorAll('.tab__content').forEach(c =>
                     c.classList.remove('tab__content--active'));
-                
+
                 e.target.classList.add('tab__btn--active');
                 const contentElement = document.getElementById(`${tab}Orders`);
                 if (contentElement) {
