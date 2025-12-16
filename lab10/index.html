@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Food Construct - доставка бизнес-ланчей в Москве">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/landing.css">
+
+    <title>Food Construct - Доставка бизнес-ланчей</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="menu__overlay" id="menu_overlay"></div>
+
+        <header class="header">
+            <div class="header__container _container">
+                <div class="header__top">
+                    <div class="header__logo">
+                        <h1><a href="index.html">Food Construct</a></h1>
+                    </div>
+
+                    <button class="theme-toggle" id="themeToggle" type="button">🌙</button>
+                </div>
+
+                <div class="menu__icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <nav class="header__menu menu">
+                    <ul class="menu__list">
+                        <li class="menu__item menu__item--active"><a href="./index.html">О нас</a></li>
+                        <li class="menu__item"><a href="../lab10/lunch.html">Собрать ланч</a></li>
+                        <li class="menu__item"><a href="../lab10/order_place.html">Оформить заказ</a></li>
+                        <li class="menu__item"><a href="../lab10/orders.html">Заказы</a></li>
+                        <li class="menu__item"><a href="#contacts">Контакты</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main">
+            <section class="hero-section" id="hero">
+                <div class="_container">
+                    <div class="hero__content">
+                        <h2 class="hero__title">Доставка бизнес-ланчей<br>в <span class="text-accent">Москве</span></h2>
+                        <p class="hero__text">Привозим горячую вкусную еду в любую точку города к назначенному времени.
+                            Работаем с 7:00 до 23:00.</p>
+                        <div class="hero__buttons">
+                            <a href="../lab10/lunch.html" class="btn btn--primary btn--large">
+                                <i class="bi bi-basket3"></i> Собрать ланч
+                            </a>
+                            <a href="#popular" class="btn btn--secondary btn--large">
+                                <i class="bi bi-fire"></i> Топ блюда
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="about-section section" id="about">
+                <div class="_container">
+                    <div class="section__header">
+                        <h2 class="section__title">О компании</h2>
+                        <p class="section__subtitle">Мы доставляем вкус и качество с 2015 года</p>
+                    </div>
+
+                    <div class="about__image-container">
+                        <div class="hero__image">
+                            <img src="../lab10/images/food.jpg" alt="Доставка еды" class="about__img">
+                        </div>
+                    </div>
+
+                    <div class="about__content">
+                        <h3 class="about__title">Food Construct — это больше чем просто доставка</h3>
+                        <p class="about__text">Мы создаем идеальные бизнес-ланчи для самых требовательных клиентов. Наша
+                            миссия — обеспечить вас вкусной и здоровой пищей в любое время дня.</p>
+
+                        <div class="features__grid">
+                            <div class="feature">
+                                <div class="feature__icon">
+                                    <i class="bi bi-shield-check"></i>
+                                </div>
+                                <h4 class="feature__title">Качество</h4>
+                                <p class="feature__text">Только свежие продукты</p>
+                            </div>
+                            <div class="feature">
+                                <div class="feature__icon">
+                                    <i class="bi bi-clock"></i>
+                                </div>
+                                <h4 class="feature__title">Пунктуальность</h4>
+                                <p class="feature__text">Точно ко времени</p>
+                            </div>
+                            <div class="feature">
+                                <div class="feature__icon">
+                                    <i class="bi bi-truck"></i>
+                                </div>
+                                <h4 class="feature__title">Доставка</h4>
+                                <p class="feature__text">По всей Москве</p>
+                            </div>
+                            <div class="feature">
+                                <div class="feature__icon">
+                                    <i class="bi bi-heart"></i>
+                                </div>
+                                <h4 class="feature__title">Забота</h4>
+                                <p class="feature__text">О каждом клиенте</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="advantages-section section section--light" id="advantages">
+                <div class="_container">
+                    <div class="section__header">
+                        <h2 class="section__title">Наши преимущества</h2>
+                        <p class="section__subtitle">Почему выбирают именно нас</p>
+                    </div>
+
+                    <div class="advantages__grid">
+                        <div class="advantage">
+                            <div class="advantage__icon">
+                                <i class="bi bi-clock-history"></i>
+                            </div>
+                            <h3 class="advantage__title">Точно вовремя</h3>
+                            <p class="advantage__text">Привозим обед к назначенному времени без опозданий. Гарантируем
+                                доставку в течение 5 минут от заказанного времени.</p>
+                        </div>
+
+                        <div class="advantage">
+                            <div class="advantage__icon">
+                                <i class="bi bi-box-seam"></i>
+                            </div>
+                            <h3 class="advantage__title">Надежная упаковка</h3>
+                            <p class="advantage__text">Бесплатные герметичные контейнеры сохраняют температуру и
+                                свежесть блюд. Еда остается горячей до 2 часов.</p>
+                        </div>
+
+                        <div class="advantage">
+                            <div class="advantage__icon">
+                                <i class="bi bi-sun"></i>
+                            </div>
+                            <h3 class="advantage__title">Работаем весь день</h3>
+                            <p class="advantage__text">Доставляем с 7:00 до 23:00 без перерывов. Вы можете заказать
+                                завтрак, обед, ужин или перекус в любое время.</p>
+                        </div>
+
+                        <div class="advantage">
+                            <div class="advantage__icon">
+                                <i class="bi bi-currency-exchange"></i>
+                            </div>
+                            <h3 class="advantage__title">Лучшие цены</h3>
+                            <p class="advantage__text">Качественные блюда по доступным ценам. Специальные условия для
+                                корпоративных клиентов и постоянных заказчиков.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="stats-section section">
+                <div class="_container">
+                    <div class="stats__grid">
+                        <div class="stat">
+                            <div class="stat__number">1500+</div>
+                            <div class="stat__label">Довольных клиентов</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat__number">50+</div>
+                            <div class="stat__label">Блюд в меню</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat__number">98%</div>
+                            <div class="stat__label">Позитивных отзывов</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat__number">24/7</div>
+                            <div class="stat__label">Поддержка клиентов</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="popular-section section section--dark" id="popular">
+                <div class="_container">
+                    <div class="section__header">
+                        <h2 class="section__title">Топ-5 популярных блюд</h2>
+                        <p class="section__subtitle">Самые заказываемые позиции этой недели</p>
+                    </div>
+
+                    <div class="popular__table">
+                        <table class="popular-table">
+                            <thead>
+                                <tr>
+                                    <th>№</th>
+                                    <th>Название блюда</th>
+                                    <th>Заказов в неделю</th>
+                                    <th>Цена</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <div class="dish-info">
+                                            <div class="dish-details">
+                                                <div class="dish-name">Лазанья</div>
+                                                <div class="dish-desc">С соусом бешамель и говядиной</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>185</td>
+                                    <td class="dish-price">385₽</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>
+                                        <div class="dish-info">
+                                            <div class="dish-details">
+                                                <div class="dish-name">Том Ям с креветками</div>
+                                                <div class="dish-desc">Тайский суп с кокосовым молоком</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>161</td>
+                                    <td class="dish-price">365₽</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>
+                                        <div class="dish-info">
+                                            <div class="dish-details">
+                                                <div class="dish-name">Норвежский суп</div>
+                                                <div class="dish-desc">С лососем и сливками</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>144</td>
+                                    <td class="dish-price">270₽</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>
+                                        <div class="dish-info">
+                                            <div class="dish-details">
+                                                <div class="dish-name">Жареная картошка с грибами</div>
+                                                <div class="dish-desc">С луком и зеленью</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>132</td>
+                                    <td class="dish-price">150₽</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>
+                                        <div class="dish-info">
+                                            <div class="dish-details">
+                                                <div class="dish-name">Котлеты из курицы с пюре</div>
+                                                <div class="dish-desc">Домашние котлеты с соусом</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>128</td>
+                                    <td class="dish-price">225₽</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="popular__cta">
+                        <a href="../lab10/lunch.html" class="btn btn--primary btn--large">
+                            <i class="bi bi-basket3"></i> Собрать свой ланч
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="cta-section section">
+                <div class="_container">
+                    <div class="cta__content">
+                        <h2 class="cta__title">Готовы попробовать?</h2>
+                        <p class="cta__text">Создайте свой идеальный бизнес-ланч за 3 минуты. Выберите суп, горячее и
+                            напиток по вашему вкусу.</p>
+                        <div class="cta__buttons">
+                            <a href="../lab10/lunch.html" class="btn btn--primary btn--large btn--cta">
+                                <i class="bi bi-basket3"></i> Собрать ланч
+                            </a>
+                            <a href="tel:+700000000000" class="btn btn--light btn--large btn--cta">
+                                <i class="bi bi-telephone"></i> Заказать по телефону
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="contacts-section section section--light" id="contacts">
+                <div class="_container">
+                    <div class="section__header">
+                        <h2 class="section__title">Контакты</h2>
+                        <p class="section__subtitle">Свяжитесь с нами удобным способом</p>
+                    </div>
+
+                    <div class="contacts__grid">
+                        <div class="contact-card">
+                            <div class="contact-card__icon">
+                                <i class="bi bi-telephone"></i>
+                            </div>
+                            <h3 class="contact-card__title">Телефон</h3>
+                            <p class="contact-card__text">Для заказов и консультаций</p>
+                            <a href="tel:+700000000000" class="contact-card__link">+7 (000) 000-00-00</a>
+                        </div>
+
+                        <div class="contact-card">
+                            <div class="contact-card__icon">
+                                <i class="bi bi-clock"></i>
+                            </div>
+                            <h3 class="contact-card__title">Время работы</h3>
+                            <p class="contact-card__text">Принимаем заказы</p>
+                            <div class="contact-card__time">7:00 – 23:00</div>
+                            <p class="contact-card__note">Без выходных и перерывов</p>
+                        </div>
+
+                        <div class="contact-card">
+                            <div class="contact-card__icon">
+                                <i class="bi bi-geo-alt"></i>
+                            </div>
+                            <h3 class="contact-card__title">Зона доставки</h3>
+                            <p class="contact-card__text">Доставляем по всей Москве</p>
+                            <div class="contact-card__zones">
+                                <span class="zone-tag">ЦАО</span>
+                                <span class="zone-tag">САО</span>
+                                <span class="zone-tag">ЮАО</span>
+                                <span class="zone-tag">ЗАО</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="_container">
+                <div class="footer__grid">
+                    <div class="footer__brand">
+                        <h3 class="footer__title">Food Construct</h3>
+                        <p class="footer__text">Доставка вкусных и качественных бизнес-ланчей в Москве с 2015 года.</p>
+                        <div class="footer__social">
+                            <a href="#" class="social-link">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i class="bi bi-vk"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i class="bi bi-telegram"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="footer__links">
+                        <h4 class="footer__subtitle">Быстрые ссылки</h4>
+                        <ul class="footer__menu">
+                            <li><a href="../lab10/lunch.html">Собрать ланч</a></li>
+                            <li><a href="../lab10/orders.html">Мои заказы</a></li>
+                            <li><a href="../lab10/order_place.html">Оформление заказа</a></li>
+                            <li><a href="#about">О нас</a></li>
+                            <li><a href="#advantages">Преимущества</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer__info">
+                        <h4 class="footer__subtitle">Информация</h4>
+                        <div class="footer__info-content">
+                            <div class="footer__info-item">
+                                <i class="bi bi-clock"></i>
+                                <span>Работаем: 7:00 - 23:00</span>
+                            </div>
+                            <div class="footer__info-item">
+                                <i class="bi bi-telephone"></i>
+                                <span>Телефон: +7 (000) 000-00-00</span>
+                            </div>
+                            <div class="footer__info-item">
+                                <i class="bi bi-envelope"></i>
+                                <span>Email: info@foodconstruct.ru</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer__bottom">
+                    <p class="footer__copyright">© 2025 Food Construct. Все права защищены.</p>
+                    <div class="footer__legal">
+                        <a href="#" class="footer__link">Политика конфиденциальности</a>
+                        <a href="#" class="footer__link">Условия использования</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Подключаем ваши скрипты -->
+    <script src="./scripts/main.js"></script>
+    <script src="./scripts/landing.js"></script>
+</body>
+
+</html>
