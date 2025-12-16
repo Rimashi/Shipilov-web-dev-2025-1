@@ -34,6 +34,50 @@ function initLanding() {
             }
         });
     });
+
+    // Валидация формы обратной связи
+    const feedbackForm = document.getElementById('feedbackForm');
+    if (feedbackForm) {
+        feedbackForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Проверяем валидность формы
+            if (!this.checkValidity()) {
+                event.stopPropagation();
+                this.classList.add('was-validated');
+                return;
+            }
+
+            // Если форма валидна, отправляем данные
+            const formData = {
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value
+            };
+
+            // Здесь обычно отправляем данные на сервер
+            console.log('Данные формы:', formData);
+
+            // Показываем сообщение об успехе
+            alert('Спасибо! Ваше сообщение отправлено. Мы свяжемся с вами в ближайшее время.');
+
+            // Сбрасываем форму
+            this.reset();
+            this.classList.remove('was-validated');
+        });
+
+        // Динамическая валидация при вводе
+        feedbackForm.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('input', function () {
+                if (this.checkValidity()) {
+                    this.classList.remove('is-invalid');
+                } else {
+                    this.classList.add('is-invalid');
+                }
+            });
+        });
+    }
 }
 
 // Анимации элементов при скролле
@@ -93,7 +137,7 @@ function initMenuHighlight() {
                     menuItems.forEach(item => {
                         item.parentElement.classList.remove('menu__item--active');
                     });
-                    
+
                     menuItem.parentElement.classList.add('menu__item--active');
                 }
             }

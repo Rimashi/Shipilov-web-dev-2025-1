@@ -190,7 +190,7 @@ class FoodConstructAPI {
                     },
                 });
 
-            console.log('Delete response status:', response.status);
+            console.log('Delete response status:', response);
 
             if (!response.ok) {
                 let errorText;

@@ -366,10 +366,10 @@ body.modal-open {
     width: 100%;
     max-width: 1200px;
     font-size: 18px;
-    /* display: flex; */
-    /* align-items: center; */
+    display: flex;
+    align-items: center;
     gap: 12px;
-    /* text-align: center; */
+    text-align: center;
 }
 
 .phone_number {
