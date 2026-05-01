@@ -116,7 +116,7 @@ class FoodConstructAPI {
     async getOrderById(id) {
         try {
             const response = await fetch(
-                `${this.localServerUrl}/labs/api/orders/${id}`,
+                `${this.baseUrl}/labs/api/orders/${id}`,
                 {
                     headers: {
                         'Accept': 'application/json'
@@ -144,7 +144,7 @@ class FoodConstructAPI {
             console.log('Updating order:', id, dataWithKey);
 
             const response = await fetch(
-                `${this.localServerUrl}/labs/api/orders/${id}`,
+                `${this.baseUrl}/labs/api/orders/${id}`,
                 {
                     method: 'PUT',
                     headers: {
@@ -182,7 +182,7 @@ class FoodConstructAPI {
             console.log('Deleting order:', id);
 
             const response = await fetch(
-                `${this.localServerUrl}/labs/api/orders/${id}`,
+                `${this.baseUrl}/labs/api/orders/${id}`,
                 {
                     method: 'DELETE',
                     headers: {
