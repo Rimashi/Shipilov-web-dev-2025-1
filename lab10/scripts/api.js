@@ -59,7 +59,7 @@ class FoodConstructAPI {
             console.log('URL:', `${this.localServerUrl}/labs/api/orders`);
 
             const response = await fetch(
-                `${this.localServerUrl}/labs/api/orders`,
+                `${this.baseUrl}/labs/api/orders`,
                 {
                     method: 'POST',
                     headers: {
@@ -95,7 +95,7 @@ class FoodConstructAPI {
     async getOrders() {
         try {
             const response = await fetch(
-                `${this.localServerUrl}/labs/api/orders`,
+                `${this.baseUrl}/labs/api/orders`,
                 {
                     headers: {
                         'Accept': 'application/json'
